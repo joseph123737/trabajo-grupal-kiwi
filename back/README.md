@@ -19,3 +19,9 @@
 4. Ejecutar la aplicación
 
     `python app.py`
+
+## Documentación
+El json debe tener id, las linas deben tener nombre. Ejemplo:
+Lineas = {
+    {"id" : "cestas", "name" : "Linea Cestas"}
+}
