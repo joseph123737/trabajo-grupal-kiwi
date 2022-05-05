@@ -6,6 +6,11 @@ const routes = [
     name: 'Home',
     component: () => import('@/pages/home/HomePage.vue'),
   },
+  {
+    path: '/varcode',
+    name: 'Var-Code',
+    component: () => import('@/pages/varcode/VarCodePage.vue'),
+  },
   
 ]
 

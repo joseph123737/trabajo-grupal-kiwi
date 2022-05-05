@@ -1,20 +1,14 @@
 <template>
   <body class="home">
     <ul>
-      <li>
-        <button>
-          LINEA CESTAS
-        </button>
+      <li @click="goToVarCodePage">
+        <p>LINEA CESTAS</p>
       </li>
-      <li>
-        <button>
-          LINEA CALIBRADO
-        </button>
+      <li @click="goToVarCodePage">
+        <p>LINEA CALIBRADO</p>
       </li>
-      <li>
-        <button>
-          CUADRE EXISTENCIAS
-        </button>
+      <li @click="goToVarCodePage">
+        <p>CUADRE EXISTENCIAS</p>
       </li>
     </ul>
   </body>
@@ -24,7 +18,11 @@
 
 export default {
   name: 'Home',
-  
+  methods: {
+    goToVarCodePage(){
+     this.$router.push("/varcode")
+    }
+  }
 
 
 }
@@ -53,13 +51,5 @@ li{
   align-items: center;
   margin-bottom: 3%;
 }
-button {
-  background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-}
+
 </style>
