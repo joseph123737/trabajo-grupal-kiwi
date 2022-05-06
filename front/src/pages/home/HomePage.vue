@@ -1,13 +1,13 @@
 <template>
   <body class="home">
     <ul>
-      <li @click="goToVarCodePage">
-        <p>LINEA CESTAS</p>
+      <li @click="goToVarCodePageBaskets" >
+        <p >LINEA CESTAS</p>
       </li>
-      <li @click="goToVarCodePage">
+      <li @click="goToVarCodePageCalibrated">
         <p>LINEA CALIBRADO</p>
       </li>
-      <li @click="goToVarCodePage">
+      <li @click="goToVarCodePageStock">
         <p>CUADRE EXISTENCIAS</p>
       </li>
     </ul>
@@ -18,8 +18,23 @@
 
 export default {
   name: 'Home',
+  data(){
+    return {
+      basket:"basket",
+      calibrated:"calibrated",
+      stock:"stock",
+
+    };
+  },
   methods: {
-    goToVarCodePage(){
+    goToVarCodePageBaskets(){
+      localStorage.line = this.basket;
+     this.$router.push("/varcode")
+    },goToVarCodePageCalibrated(){
+      localStorage.line = this.calibrated
+     this.$router.push("/varcode")
+    },goToVarCodePageStock(){
+      localStorage.line = this.stock
      this.$router.push("/varcode")
     }
   }
