@@ -1,14 +1,14 @@
 <template>
   <body class="home">
     <ul>
-      <li @click="goToVarCodePageBaskets" >
+      <li @click="goToBarCodePageBaskets" >
         <p >LINEA CESTAS</p>
       </li>
-      <li @click="goToVarCodePageCalibrated">
+      <li @click="goToBarCodePageCalibrated">
         <p>LINEA CALIBRADO</p>
       </li>
-      <li @click="goToVarCodePageStock">
-        <p>CUADRE EXISTENCIAS</p>
+      <li @click="goToBarCodePageStock">
+        <p>CUADRO EXISTENCIAS</p>
       </li>
     </ul>
   </body>
@@ -27,7 +27,7 @@ export default {
     };
   },
   methods: {
-    goToVarCodePageBaskets(){
+    goToBarCodePageBaskets(){
       localStorage.line = this.basket;
      this.$router.push("/qrcode")
     },goToVarCodePageCalibrated(){

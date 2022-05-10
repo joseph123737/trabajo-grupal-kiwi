@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   {
@@ -7,9 +7,9 @@ const routes = [
     component: () => import('@/pages/home/HomePage.vue'),
   },
   {
-    path: '/varcode',
-    name: 'Var-Code',
-    component: () => import('@/pages/varcode/VarCodePage.vue'),
+    path: '/barcode',
+    name: 'BarCode',
+    component: () => import('@/pages/barcode/BarCodePage.vue'),
   },
   {
     path: '/qrcode',
@@ -20,8 +20,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
-})
+	history: createWebHistory(process.env.BASE_URL),
+	routes,
+});
 
-export default router
+export default router;

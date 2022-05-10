@@ -17,9 +17,9 @@ def create_app(repositories):
     def info_get():
         info = repositories["info"].get_info()
         return object_to_json(info)
-    
-    @app.route("/api/varCode", methods=["POST"])
+
+    @app.route("/api/barCode", methods=["POST"])
     def get_bar_code():
-        return " ",200
+        return " ", 200
 
     return app

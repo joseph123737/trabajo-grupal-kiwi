@@ -3,7 +3,7 @@
     <h2>{{ palot.lineName }}</h2>
     <input
       v-bind:class="{ correctBarCode: correctBarCode }"
-      v-model="palot.varCode"
+      v-model="palot.barCode"
       v-on:keyup.enter="sentData(palot)"
       ref="myInput"
       autofocus
@@ -15,12 +15,12 @@
 
 <script>
 export default {
-  name: "varcode",
+  name: "barcode",
   data() {
     return {
       palot: {
         lineName: localStorage.line,
-        varCode: "",
+        barCode: "",
       },
       correctBarCode: false,
     };
@@ -39,14 +39,14 @@ export default {
         },
       };
       console.log(palot);
-      let response = await fetch("http://localhost:5000/api/varCode", settings);
+      let response = await fetch("http://localhost:5000/api/barCode", settings);
       if (response.status == 200) {
-        this.palot.varCode = "";
+        this.palot.barCode = "";
         this.correctBarCode = true;
       }
     },
     checkingInput() {
-      if (this.palot.varCode == "") {
+      if (this.palot.barCode == "") {
         return false;
       } else {
         return true;
