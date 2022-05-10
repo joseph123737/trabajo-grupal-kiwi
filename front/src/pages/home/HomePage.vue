@@ -1,14 +1,14 @@
 <template>
   <body class="home">
     <ul>
-      <li @click="goToVarCodePageBaskets" >
+      <li @click="goToBarCodePageBaskets" >
         <p >LINEA CESTAS</p>
       </li>
-      <li @click="goToVarCodePageCalibrated">
+      <li @click="goToBarCodePageCalibrated">
         <p>LINEA CALIBRADO</p>
       </li>
-      <li @click="goToVarCodePageStock">
-        <p>CUADRE EXISTENCIAS</p>
+      <li @click="goToBarCodePageStock">
+        <p>CUADRO EXISTENCIAS</p>
       </li>
     </ul>
   </body>
@@ -27,15 +27,15 @@ export default {
     };
   },
   methods: {
-    goToVarCodePageBaskets(){
+    goToBarCodePageBaskets(){
       localStorage.line = this.basket;
-     this.$router.push("/varcode")
-    },goToVarCodePageCalibrated(){
+     this.$router.push("/barcode")
+    },goToBarCodePageCalibrated(){
       localStorage.line = this.calibrated
-     this.$router.push("/varcode")
-    },goToVarCodePageStock(){
+     this.$router.push("/barcode")
+    },goToBarCodePageStock(){
       localStorage.line = this.stock
-     this.$router.push("/varcode")
+     this.$router.push("/barcode")
     }
   }
 
