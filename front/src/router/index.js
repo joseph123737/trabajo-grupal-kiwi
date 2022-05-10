@@ -11,6 +11,11 @@ const routes = [
     name: 'Var-Code',
     component: () => import('@/pages/varcode/VarCodePage.vue'),
   },
+  {
+    path: '/qrcode',
+    name: 'QrCode',
+    component: () => import('@/pages/qr/QrPageLecture.vue'),
+  },
   
 ]
 

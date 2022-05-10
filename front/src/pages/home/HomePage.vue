@@ -29,13 +29,13 @@ export default {
   methods: {
     goToVarCodePageBaskets(){
       localStorage.line = this.basket;
-     this.$router.push("/varcode")
+     this.$router.push("/qrcode")
     },goToVarCodePageCalibrated(){
       localStorage.line = this.calibrated
-     this.$router.push("/varcode")
+     this.$router.push("/qrcode")
     },goToVarCodePageStock(){
       localStorage.line = this.stock
-     this.$router.push("/varcode")
+     this.$router.push("/qrcode")
     }
   }
 
