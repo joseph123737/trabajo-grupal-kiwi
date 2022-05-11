@@ -1,7 +1,7 @@
 from crypt import methods
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
-
+from src.domain.bar_code import BarCode
 from src.lib.utils import object_to_json
 
 
@@ -18,8 +18,15 @@ def create_app(repositories):
         info = repositories["info"].get_info()
         return object_to_json(info)
 
-    @app.route("/api/barCode", methods=["POST"])
+    @app.route("/api/barcode", methods=["POST"])
     def get_bar_code():
-        return " ", 200
+        body = request.json
+        print(body)
+
+        bar_code_unconverted = Barcode(
+            proyect=body["proyect"],
+            lote_number=body["lote_number"],
+        )
+        return object_to_json(bar_code_unconverted), 200
 
     return app
