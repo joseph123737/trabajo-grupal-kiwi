@@ -23,7 +23,7 @@ def create_app(repositories):
         body = request.json
         print(body)
 
-        bar_code_unconverted = Barcode(
+        bar_code_unconverted = BarCode(
             proyect=body["proyect"],
             lote_number=body["lote_number"],
         )
