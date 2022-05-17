@@ -10,7 +10,7 @@ def test_should_pick_front_json():
 
     body = {
         "lote_number": "123456789",
-        "proyect": "L.CALIBRADO",
+        "project": "L.CALIBRADO",
     }
 
     response = client.post("/api/barCode", json=body)
@@ -19,6 +19,6 @@ def test_should_pick_front_json():
 
     assert response.json == {
         "lote_number": "123456789",
-        "proyect": "L.CALIBRADO",
+        "project": "L.CALIBRADO",
         "user_name": "ik",
     }

@@ -4,7 +4,7 @@
     <h2>{{this.counter}}</h2>
     <input
       
-      v-model="palot.barCode"
+      v-model="palot.lote_number"
       v-on:keyup.enter="sentData(palot)"
       ref="myInput"
       autofocus
@@ -20,8 +20,8 @@ export default {
   data() {
     return {
       palot: {
-        lineName: localStorage.line,
-        barCode: "",
+        project: localStorage.line,
+        lote_number: "",
       },
       correctBarCode: false,
       counter: 0,
@@ -43,13 +43,13 @@ export default {
       console.log(palot);
       let response = await fetch("https://192.168.21.62:8081/api/barcode", settings);
       if (response.status == 200) {
-        this.palot.barCode = "";
+        this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
       }
     },
     checkingInput() {
-      if (this.palot.barCode == "") {
+      if (this.palot.lote_number == "") {
         return false;
       } else {
         return true;
