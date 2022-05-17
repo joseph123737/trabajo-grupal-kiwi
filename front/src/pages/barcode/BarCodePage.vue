@@ -1,8 +1,9 @@
 <template>
   <body>
     <h2>{{ palot.lineName }}</h2>
+    <h2>{{this.counter}}</h2>
     <input
-      v-bind:class="{ correctBarCode: correctBarCode }"
+      
       v-model="palot.barCode"
       v-on:keyup.enter="sentData(palot)"
       ref="myInput"
@@ -23,6 +24,7 @@ export default {
         barCode: "",
       },
       correctBarCode: false,
+      counter: 0,
     };
   },
   computed: {},
@@ -39,9 +41,10 @@ export default {
         },
       };
       console.log(palot);
-      let response = await fetch("http://localhost:5000/api/barCode", settings);
+      let response = await fetch("https://192.168.21.62:8081/api/barcode", settings);
       if (response.status == 200) {
         this.palot.barCode = "";
+        this.counter += 1;
         this.correctBarCode = true;
       }
     },

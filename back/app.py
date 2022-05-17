@@ -3,6 +3,9 @@ from src.webserver import create_app
 from src.domain.info import InfoRepository
 
 
+
+
+
 database_path = "data/database.db"
 
 repositories = {
