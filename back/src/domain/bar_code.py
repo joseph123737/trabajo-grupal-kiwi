@@ -54,11 +54,11 @@ class BarCodeRepository:
        
     def save_palot(self, palots):
         sql = """insert into palots (lote_number, project, date) values (
-            :lote_number, :project, :date
+            :lote_number, :project, DATE()
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
-        cursor.execute(sql,{"lote_number":palots.lote_number,"project":palots.project,"date":palots.date} )
+        cursor.execute(sql,{"lote_number":palots.lote_number,"project":palots.project, "date": palots.date} )
         conn.commit()
 
   

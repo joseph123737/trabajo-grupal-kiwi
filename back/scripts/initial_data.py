@@ -20,7 +20,7 @@ def main():
     first_palot = BarCode(
         lote_number= "K2100017001",
         project= "L.CALIBRADO",
-        date= "2022-05-17"
+        date = ""
     )
     barcode_repository.save_palot(first_palot)
 
