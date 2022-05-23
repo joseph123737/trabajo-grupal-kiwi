@@ -1,8 +1,8 @@
 <template>
   <body class="home">
     <ul>
-      <li @click="goToBarCodePageBaskets" >
-        <p >LINEA CESTAS</p>
+      <li @click="goToBarCodePageBaskets">
+        <p>LINEA CESTAS</p>
       </li>
       <li @click="goToBarCodePageCalibrated">
         <p>LINEA CALIBRADO</p>
@@ -15,32 +15,30 @@
 </template>
 
 <script>
-
 export default {
-  name: 'Home',
-  data(){
+  name: "Home",
+  data() {
     return {
-      basket:"basket",
-      calibrated:"calibrated",
-      stock:"stock",
-
+      basket: "basket",
+      calibrated: "calibrated",
+      stock: "stock",
     };
   },
   methods: {
-    goToBarCodePageBaskets(){
+    goToBarCodePageBaskets() {
       localStorage.line = this.basket;
-     this.$router.push("/qrcode")
-    },goToVarCodePageCalibrated(){
-      localStorage.line = this.calibrated
-     this.$router.push("/qrcode")
-    },goToVarCodePageStock(){
-      localStorage.line = this.stock
-     this.$router.push("/qrcode")
-    }
-  }
-
-
-}
+      this.$router.push("/barcode");
+    },
+    goToBarCodePageCalibrated() {
+      localStorage.line = this.calibrated;
+      this.$router.push("/barcode");
+    },
+    goToBarCodePageStock() {
+      localStorage.line = this.stock;
+      this.$router.push("/barcode");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -51,11 +49,11 @@ body {
   justify-content: center;
   align-items: center;
 }
-ul{
+ul {
   padding: 0;
   margin: 0;
 }
-li{
+li {
   list-style: none;
   border: 1px solid black;
   border-radius: 30px;
@@ -66,5 +64,4 @@ li{
   align-items: center;
   margin-bottom: 3%;
 }
-
 </style>
