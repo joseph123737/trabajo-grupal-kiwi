@@ -2,7 +2,11 @@
   <body>
     <h2 class="project">{{ this.palot.project }}</h2>
     <h2>{{this.counter}}</h2>
-    <LoadingScreen v-if="isLoading"/>
+    <div class="container" v-if="isLoading">
+        <div class="ring"></div>
+    </div>
+    <!-- <LoadingScreen class="loading" v-if="isLoading"/> -->
+
     <input
       name="barcode"
       v-model="palot.lote_number"
@@ -17,10 +21,8 @@
 </template>
 
 <script>
-import LoadingScreen from "@/pages/components/LoadingScreen.vue";
 export default {
   name: "barcode",
-  components: {LoadingScreen},
   data() {
     return {
       palot: {
@@ -75,12 +77,50 @@ export default {
 </script>
 
 <style>
+
 .correctBarCode {
   background-color: rgb(16, 212, 16);
   border: 2px solid green;
 }
-body{
+.container{
+  position:fixed;
+  width:100%;
   display:flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+.container .ring{
+  position:relative;
+  width:150px;
+  height: 150px;
+  margin: -30px;
+  border-radius:50%;
+  border: 4px solid transparent;
+  border-top: 4px solid #000000;
+  animation: animate 4s linear infinite;
+}
+@keyframes animate {
+  0%{
+      transform: rotate(0deg)
+  }
+  100%{
+      transform: rotate(360deg)
+  }
+}
+.container .ring::before{
+  content:"";
+  position:absolute;
+  top: 12px;
+  right: 12px;
+  border-radius: 50%;
+  width:15px;
+  height:15px;
+  background: #000000;
+  box-shadow: 0 0 0 15px #00000033,
+  0 0 0 10px #00000022,
+  0 0 0 20px #00000011,
+  0 0  20px #000000,
+  0 0 50px #000000;
+}
+
 </style>

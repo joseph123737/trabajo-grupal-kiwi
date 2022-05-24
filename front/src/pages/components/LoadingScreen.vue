@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 *{
     margin: 0;
     padding: 0;
@@ -70,8 +70,8 @@ body {
 
 .container p{
     position:absolute;
-    color: #fff;
-    font-size: 1.5em;
+    color: black;
+    font-size: 0.7em;
     font-family: consolas, "Courier New", monospace;
     bottom: -80px;
     letter-spacing: 0.15em;
