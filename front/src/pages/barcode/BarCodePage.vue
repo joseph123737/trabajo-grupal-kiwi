@@ -5,7 +5,6 @@
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
     </div>
-    <!-- <LoadingScreen class="loading" v-if="isLoading"/> -->
 
     <input
       name="barcode"
