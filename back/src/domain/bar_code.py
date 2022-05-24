@@ -4,7 +4,7 @@ import sqlite3
 
 
 class BarCode:
-    def __init__(self, project, lote_number):
+    def __init__(self, project, lote_number,date=None):
         self.project = project
         self.lote_number = lote_number
         self.date = date
