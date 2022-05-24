@@ -49,7 +49,7 @@ export default {
         },
       };
       console.log(palot);
-      let response = await fetch("https://localhost:8081/api/barcode", settings);
+      let response = await fetch("https://localhost:8080/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.palot.lote_number = "";
