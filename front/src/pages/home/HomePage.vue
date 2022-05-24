@@ -19,8 +19,8 @@ export default {
   name: "Home",
   data() {
     return {
-      basket: "basket",
-      calibrated: "calibrated",
+      basket: "cestas",
+      calibrated: "calibrado",
       stock: "stock",
     };
   },

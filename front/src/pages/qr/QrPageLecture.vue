@@ -1,6 +1,6 @@
 <template>
   <body>
-    <h1>{{ project }}</h1>
+    <h1 class="project">{{ this.palot.project }}</h1>
 
     <button @click="startProcess">Start</button>
     <div id="reader"></div>
@@ -39,7 +39,7 @@ export default {
       html5QrcodeScanner.render(this.onScanSuccess, this.onScanFailure);
     },
     onScanSuccess(decodedText, decodedResult) {
-      this.palot.barCode = decodedText;
+      this.palot.loteNumber = decodedText;
       if (this.decodedText != "") {
         this.sentData(this.palot);
         this.html5QrcodeScanner.clear()
@@ -61,7 +61,7 @@ export default {
         },
       };
       console.log(palot);
-      await fetch("https://192.168.21.62:8081/api/barcode", settings);
+      await fetch("https://192.168.21.62:8080/api/barcode", settings);
       // if (response == "200"){
       //   this.barcodeReader()
       
@@ -72,3 +72,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+.project{
+  font-size: 50px;
+
+}
+</style>

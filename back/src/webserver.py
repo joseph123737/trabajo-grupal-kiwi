@@ -1,7 +1,10 @@
 from crypt import methods
 from flask import Flask, request
 from flask_cors import CORS
-from src.domain.bar_code import BarCode
+from src.domain.bar_code import BarCode, converted_json_to_xml
+from src.lib.utils import object_to_json
+import xml.etree.cElementTree as e
+import json
 
 
 def create_app(repositories):
