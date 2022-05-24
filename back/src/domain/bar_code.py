@@ -1,15 +1,16 @@
 import io
+from urllib import response
 import xml.etree.cElementTree as e
 import pycurl
 import sqlite3
 
 
 class BarCode:
-    def __init__(self, project, lote_number,date=None):
+    def __init__(self, project, lote_number, date=None):
         self.project = project
         self.lote_number = lote_number
         self.date = date
-        self.user_name = "ik"
+        self.user_name = "IK"
 
     def to_dict(self):
         return {
@@ -20,13 +21,13 @@ class BarCode:
         }
 
     def converted_json_to_xml(self):
-        root = e.Element("CheckConsumption")
-        e.SubElement(root, "pJobNo").text = self.project
-        e.SubElement(root, "pBarcode").text = self.lote_number
-        e.SubElement(root, "pResourceNo").text = self.user_name
+        root = e.Element("app:CheckConsumption")
+        e.SubElement(root, "app:pJobNo").text = self.project
+        e.SubElement(root, "app:pBarcode").text = self.lote_number
+        e.SubElement(root, "app:pResourceNo ").text = self.user_name
         xml_string = e.tostring(root)
         xml_bytes = io.BytesIO(xml_string)
-        return xml_bytes
+        return xml_string
 
     def send_xml_to_erp(self):
         headers = [
@@ -36,60 +37,61 @@ class BarCode:
             "Content-Type: text/xml; charset=utf-8",
             'SOAPAction:"CheckConsumption"',
         ]
+        xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+	              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:app="urn:microsoft-dynamics-schemas/codeunit/APP_MGMT">
+	              <soapenv:Header/>
+	              <soapenv:Body>
+		              <app:CheckConsumption>
+			            <app:pJobNo>{self.project}</app:pJobNo>
+			            <app:pBarcode>{self.lote_number}</app:pBarcode>
+			            <app:pResourceNo >IK</app:pResourceNo >
+		              </app:CheckConsumption>
+	              </soapenv:Body>
+	              </soapenv:Envelope>"""
         curl = pycurl.Curl()
         buffer = io.BytesIO()
 
         curl.setopt(
             pycurl.URL,
-            "http://80.24.99.155:9074/response",
+            "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT",
         )
         curl.setopt(pycurl.HTTPHEADER, headers)
         curl.setopt(pycurl.POST, 1)
-        curl.setopt(pycurl.READDATA, self.converted_json_to_xml())
+        curl.setopt(pycurl.POSTFIELDS, xml)
         curl.setopt(pycurl.WRITEDATA, buffer)
-        curl.perform()
-        body = buffer.getvalue()
 
-        print(".----------", body.decode("iso-8859-1"))
+        curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
+        # curl.setopt(pycurl.USERPWD, "{}:{}".format(name, pwd))
+        curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
+
+        curl.perform()
+        response = buffer.getvalue()
         print(curl.getinfo(pycurl.HTTP_CODE))
+        body = response.decode("iso-8859-1")
+        print("--------------------------", body)
+
         curl.close()
 
+    # def prueba_ntlm(self):
 
-prueba = BarCode(project="l", lote_number="12")
+    #     name = "GARAIAKOOP\\navision"
+    #     pwd = "Navi@GaraiaKoop"
+    #     url = "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT"
+    #     curl = pycurl.Curl()
+    #     curl.setopt(pycurl.URL, url)
+    #     curl.setopt(pycurl.SSL_VERIFYPEER, 0)
+
+    #     curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
+    #     # curl.setopt(pycurl.USERPWD, "{}:{}".format(name, pwd))
+    #     curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
+
+    #     curl.perform()
+    #     self.send_xml_to_erp(url)
+    #     curl.close()
+
+
+prueba = BarCode(project="L.CALIBRADO", lote_number="211111-46")
 prueba.send_xml_to_erp()
-
-
-def converted_json_to_xml(body):
-    root = e.Element("CheckConsumption")
-    e.SubElement(root, "pJobNo").text = body["project"]
-    e.SubElement(root, "plote_numbers").text = body["lote_number"]
-    e.SubElement(root, "pResourceNo").text = "ik"
-    a = e.ElementTree(root)
-    
-
-
-body = {"project": "project", "lote_number": "lote_number"}
-
-converted_json_to_xml(body)
-
-
-def prueba_ntlm():
-
-    name = "navision"
-    pwd = "Navi@GaraiaKoop"
-    url = "https://28dbc435-b17e-4503-940f-03a40b4d50a4.mock.pstmn.io/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT"
-    curl = pycurl.Curl()
-    curl.setopt(pycurl.URL, url)
-    curl.setopt(pycurl.SSL_VERIFYPEER, 0)
-
-    curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
-    curl.setopt(pycurl.USERPWD, "{}:{}".format(name, pwd))
-
-    curl.perform()
-    curl.close()
-
-
-prueba_ntlm()
 
 
 class BarCodeRepository:

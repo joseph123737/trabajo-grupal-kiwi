@@ -1,4 +1,3 @@
-import sqlite3
 from src.webserver import create_app
 from src.domain.info import InfoRepository
 from src.domain.bar_code import BarCodeRepository
@@ -7,7 +6,7 @@ database_path = "data/database.db"
 
 repositories = {
     "info": InfoRepository(database_path),
-    "barcode" : BarCodeRepository(database_path),
+    "barcode": BarCodeRepository(database_path),
 }
 
 app = create_app(repositories)
