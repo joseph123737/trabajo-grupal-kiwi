@@ -15,12 +15,12 @@ def create_app(repositories):
     @app.route("/api/barcode", methods=["POST"])
     def get_bar_code():
         body = request.json
-        print(body)
 
         bar_code_unconverted = BarCode(
             project=body["project"],
             lote_number=body["lote_number"],
         )
+        bar_code_unconverted.send_xml_to_erp()
         return "", 200
 
     return app
