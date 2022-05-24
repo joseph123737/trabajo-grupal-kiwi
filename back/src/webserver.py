@@ -18,7 +18,6 @@ def create_app(repositories):
     @app.route("/api/barcode", methods=["POST"])
     def get_bar_code():
         body = request.json
-
         bar_code_unconverted = BarCode(
             project=body["project"],
             lote_number=body["lote_number"],

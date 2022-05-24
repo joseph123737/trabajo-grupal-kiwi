@@ -65,7 +65,7 @@ def converted_json_to_xml(body):
     e.SubElement(root, "plote_numbers").text = body["lote_number"]
     e.SubElement(root, "pResourceNo").text = "ik"
     a = e.ElementTree(root)
-    a.write("prueba.xml")
+    
 
 
 body = {"project": "project", "lote_number": "lote_number"}
