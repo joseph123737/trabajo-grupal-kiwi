@@ -16,6 +16,11 @@ const routes = [
     name: 'QrCode',
     component: () => import('@/pages/qr/QrPageLecture.vue'),
   },
+  {
+    path: '/loading',
+    name: 'Loading',
+    component: () => import('@/pages/components/LoadingScreen.vue'),
+  },
   
 ]
 

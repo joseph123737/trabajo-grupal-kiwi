@@ -2,20 +2,25 @@
   <body>
     <h2 class="project">{{ this.palot.project }}</h2>
     <h2>{{this.counter}}</h2>
+    <LoadingScreen v-if="isLoading"/>
     <input
+      name="barcode"
       v-model="palot.lote_number"
       v-on:keyup.enter="sentData(palot)"
       ref="myInput"
       autofocus
       type="text"
       placeholder="Codigo de barras"
+      
     />
   </body>
 </template>
 
 <script>
+import LoadingScreen from "@/pages/components/LoadingScreen.vue";
 export default {
   name: "barcode",
+  components: {LoadingScreen},
   data() {
     return {
       palot: {
@@ -24,11 +29,15 @@ export default {
       },
       correctBarCode: false,
       counter: 0,
+      isLoading: true
     };
   },
   computed: {},
   mounted() {
     this.setFocus();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1500);
   },
   methods: {
     async sentData(palot) {
@@ -40,12 +49,15 @@ export default {
         },
       };
       console.log(palot);
-      let response = await fetch("https://192.168.21.62:8080/api/barcode", settings);
+      let response = await fetch("https://localhost:8081/api/barcode", settings);
       if (response.status == 200) {
+        this.isLoading = false;
         this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
       }
+      
+      
     },
     checkingInput() {
       if (this.palot.lote_number == "") {
@@ -67,8 +79,8 @@ export default {
   background-color: rgb(16, 212, 16);
   border: 2px solid green;
 }
-.project{
-  font-size: 75px;
-
+body{
+  display:flex;
+  flex-direction: column;
 }
 </style>
