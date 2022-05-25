@@ -16,12 +16,16 @@ def create_app(repositories):
     def get_bar_code():
         body = request.json
         good_body = body["lote_number"].replace("'","-")
-        print(good_body)
         bar_code_unconverted = BarCode(
             project=body["project"],
-            lote_number=body["lote_number"].replace("'","-"),
+            lote_number=good_body,
         )
-        bar_code_unconverted.send_xml_to_erp()
-        return "", 200
+        erp_response =   bar_code_unconverted.send_xml_to_erp()
+        if erp_response["status_code"] == 200:
+            return "", 200
+        if erp_response["status_code"] == 500:
+            return "", 500
+
+
 
     return app

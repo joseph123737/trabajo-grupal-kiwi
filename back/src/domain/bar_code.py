@@ -18,15 +18,7 @@ class BarCode:
             "date": self.date,
             "user_name": self.user_name,
         }
-
-    def converted_json_to_xml(self):
-        root = e.Element("app:CheckConsumption")
-        e.SubElement(root, "app:pJobNo").text = self.project
-        e.SubElement(root, "app:pBarcode").text = self.lote_number
-        e.SubElement(root, "app:pResourceNo ").text = self.user_name
-        xml_string = e.tostring(root)
-        return xml_string
-
+        
     def send_xml_to_erp(self):
         headers = [
             "Method: POST",
@@ -63,13 +55,26 @@ class BarCode:
         curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
 
         curl.perform()
-        response = buffer.getvalue()
-        print(curl.getinfo(pycurl.HTTP_CODE))
-        body = response.decode("iso-8859-1")
-        print("--------------------------", body)
-
         curl.close()
+        
+        response = buffer.getvalue()
+        body = response.decode("iso-8859-1")
+
+        body = body.replace('<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">', '')
+        body = body.replace('<s:Body>', '')
+        body = body.replace('</s:Body>', '')
+        body = body.replace('<ExportOrderLines_Result xmlns="urn:microsoft-dynamics-schemas/codeunit/eShopExportImport">', '')
+        body = body.replace('</ExportOrderLines_Result>', '')
+        body = body.replace('</s:Envelope>', '')
+        body = body.replace(' xmlns="&lt;urn:microsoft-dynamics-nav/xmlports/eShopOrderLines&gt;"', '')
+        body = body.replace('</faultstring>', '')
+        body = body.replace('<faultstring>', '')
+        body = body.replace('<faultcode ', '')
+        body = body.replace('<s:Fault>xmlns:a="urn:microsoft-dynamics-schemas/error">a:Microsoft.Dynamics.Nav.Types.Exceptions.NavNCLDialogException</faultcode>', '')
+        
+
         return {"body":body,"status_code":curl.getinfo(pycurl.HTTP_CODE)}
+
 
 
 class BarCodeRepository:
