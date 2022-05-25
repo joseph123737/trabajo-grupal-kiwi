@@ -30,7 +30,7 @@ export default {
       },
       correctBarCode: false,
       counter: 0,
-      isLoading: true
+      isLoading: false,
     };
   },
   computed: {},
@@ -51,6 +51,8 @@ export default {
       };
       console.log(palot);
       let response = await fetch("https://localhost:8080/api/barcode", settings);
+      if (response.status == " ")
+        {this.isLoading = true}
       if (response.status == 200) {
         this.isLoading = false;
         this.palot.lote_number = "";

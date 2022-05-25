@@ -15,9 +15,11 @@ def create_app(repositories):
     @app.route("/api/barcode", methods=["POST"])
     def get_bar_code():
         body = request.json
+        good_body = body["lote_number"].replace("'","-")
+        print(good_body)
         bar_code_unconverted = BarCode(
             project=body["project"],
-            lote_number=body["lote_number"],
+            lote_number=body["lote_number"].replace("'","-"),
         )
         bar_code_unconverted.send_xml_to_erp()
         return "", 200
