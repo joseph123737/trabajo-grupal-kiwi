@@ -1,5 +1,4 @@
 import io
-from urllib import response
 import xml.etree.cElementTree as e
 import pycurl
 import sqlite3
@@ -26,7 +25,6 @@ class BarCode:
         e.SubElement(root, "app:pBarcode").text = self.lote_number
         e.SubElement(root, "app:pResourceNo ").text = self.user_name
         xml_string = e.tostring(root)
-        xml_bytes = io.BytesIO(xml_string)
         return xml_string
 
     def send_xml_to_erp(self):
@@ -37,7 +35,7 @@ class BarCode:
             "Content-Type: text/xml; charset=utf-8",
             'SOAPAction:"CheckConsumption"',
         ]
-        xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+        body_to_send = f"""<?xml version="1.0" encoding="UTF-8"?>
 	              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:app="urn:microsoft-dynamics-schemas/codeunit/APP_MGMT">
 	              <soapenv:Header/>
 	              <soapenv:Body>
@@ -48,6 +46,7 @@ class BarCode:
 		              </app:CheckConsumption>
 	              </soapenv:Body>
 	              </soapenv:Envelope>"""
+
         curl = pycurl.Curl()
         buffer = io.BytesIO()
 
@@ -57,11 +56,10 @@ class BarCode:
         )
         curl.setopt(pycurl.HTTPHEADER, headers)
         curl.setopt(pycurl.POST, 1)
-        curl.setopt(pycurl.POSTFIELDS, xml)
+        curl.setopt(pycurl.POSTFIELDS, body_to_send)
         curl.setopt(pycurl.WRITEDATA, buffer)
 
         curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
-        # curl.setopt(pycurl.USERPWD, "{}:{}".format(name, pwd))
         curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
 
         curl.perform()
@@ -71,27 +69,7 @@ class BarCode:
         print("--------------------------", body)
 
         curl.close()
-
-    # def prueba_ntlm(self):
-
-    #     name = "GARAIAKOOP\\navision"
-    #     pwd = "Navi@GaraiaKoop"
-    #     url = "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT"
-    #     curl = pycurl.Curl()
-    #     curl.setopt(pycurl.URL, url)
-    #     curl.setopt(pycurl.SSL_VERIFYPEER, 0)
-
-    #     curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
-    #     # curl.setopt(pycurl.USERPWD, "{}:{}".format(name, pwd))
-    #     curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
-
-    #     curl.perform()
-    #     self.send_xml_to_erp(url)
-    #     curl.close()
-
-
-prueba = BarCode(project="L.CALIBRADO", lote_number="211111-46")
-prueba.send_xml_to_erp()
+        return {"body":body,"status_code":curl.getinfo(pycurl.HTTP_CODE)}
 
 
 class BarCodeRepository:
