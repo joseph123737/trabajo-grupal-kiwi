@@ -22,6 +22,7 @@ def create_app(repositories):
             lote_number=body["lote_number"].replace("'","-"),
         )
         bar_code_unconverted.send_xml_to_erp()
+        
         return "", 200
 
     return app

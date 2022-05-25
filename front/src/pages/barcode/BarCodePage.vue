@@ -13,6 +13,7 @@
       ref="myInput"
       autofocus
       type="text"
+      id="barCodeInput"
       placeholder="Codigo de barras"
       
     />
@@ -31,14 +32,19 @@ export default {
       correctBarCode: false,
       counter: 0,
       isLoading: false,
+      controlVariable:true,
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   mounted() {
+    this.inputDisabledFalse();
     this.setFocus();
     setTimeout(() => {
       this.isLoading = false;
     }, 1500);
+    
   },
   methods: {
     async sentData(palot) {
@@ -49,18 +55,22 @@ export default {
           "Content-Type": "application/json",
         },
       };
-      console.log(palot);
+      this.controlVariable = false;
+      this.isLoading= true
+      document.getElementById("barCodeInput").disabled = true
       let response = await fetch("https://localhost:8080/api/barcode", settings);
-      if (response.status == " ")
-        {this.isLoading = true}
-      if (response.status == 200) {
+      if (response.status == 200 || response.status == 500) {
         this.isLoading = false;
+        document.getElementById("barCodeInput").disabled= false
+        this.controlVariable = true;
         this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
       }
-      
-      
+    },
+    inputDisabledFalse(){
+      var input = document.getElementById("barCodeInput")
+      input.disabled= false
     },
     checkingInput() {
       if (this.palot.lote_number == "") {
