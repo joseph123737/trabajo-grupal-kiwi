@@ -22,9 +22,9 @@ def create_app(repositories):
         )
         erp_response =   bar_code_unconverted.send_xml_to_erp()
         if erp_response["status_code"] == 200:
-            return "", 200
+            return erp_response["body"], 200
         if erp_response["status_code"] == 500:
-            return "", 500
+            return erp_response["body"], 500
 
 
 
