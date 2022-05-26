@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 from src.domain.bar_code import BarCode
-import xml.etree.cElementTree as e
+
 
 
 def create_app(repositories):

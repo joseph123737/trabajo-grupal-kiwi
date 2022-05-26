@@ -81,7 +81,7 @@ export default {
     },
     setFocus() {
       this.$refs.myInput.focus();
-      // this.correctBarCode = false;
+      
     },
   },
 };
