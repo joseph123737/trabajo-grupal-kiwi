@@ -5,6 +5,9 @@
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
     </div>
+    <div class="errorMessage" v-if="errorMessage">
+      <p>Este codigo ya ha sido consumido</p>
+    </div>
 
     <input
       name="barcode"
@@ -33,6 +36,7 @@ export default {
       counter: 0,
       isLoading: false,
       controlVariable:true,
+      errorMessage: false,
     };
   },
   computed: {
@@ -44,6 +48,7 @@ export default {
     setTimeout(() => {
       this.isLoading = false;
     }, 1500);
+
     
   },
   methods: {
@@ -59,10 +64,19 @@ export default {
       this.isLoading= true
       document.getElementById("barCodeInput").disabled = true
       let response = await fetch("https://localhost:8080/api/barcode", settings);
-      if (response.status == 200 || response.status == 500) {
+      if (response.status == 200) {
         this.isLoading = false;
         document.getElementById("barCodeInput").disabled= false
         this.controlVariable = true;
+        this.palot.lote_number = "";
+        this.counter += 1;
+        this.correctBarCode = true;
+      }
+      if (response.status == 500) {
+        this.isLoading = false;
+        document.getElementById("barCodeInput").disabled= false  
+        this.controlVariable = true;
+        this.errorMessage = true;
         this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
