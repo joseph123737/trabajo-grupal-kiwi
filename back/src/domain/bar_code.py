@@ -56,25 +56,26 @@ class BarCode:
 
         curl.perform()
         curl.close()
-        
+
         response = buffer.getvalue()
         body = response.decode("iso-8859-1")
 
-        body = body.replace('<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">', '')
-        body = body.replace('<s:Body>', '')
-        body = body.replace('</s:Body>', '')
-        body = body.replace('<ExportOrderLines_Result xmlns="urn:microsoft-dynamics-schemas/codeunit/eShopExportImport">', '')
-        body = body.replace('</ExportOrderLines_Result>', '')
-        body = body.replace('</s:Envelope>', '')
-        body = body.replace(' xmlns="&lt;urn:microsoft-dynamics-nav/xmlports/eShopOrderLines&gt;"', '')
-        body = body.replace('</faultstring>', '')
-        body = body.replace('<faultstring>', '')
-        body = body.replace('<faultcode ', '')
-        body = body.replace('<s:Fault>xmlns:a="urn:microsoft-dynamics-schemas/error">a:Microsoft.Dynamics.Nav.Types.Exceptions.NavNCLDialogException</faultcode>', '')
-        
+        # body = body.replace('<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">', '')
+        # body = body.replace('<s:Body>', '')
+        # body = body.replace('</s:Body>', '')
+        # body = body.replace('<ExportOrderLines_Result xmlns="urn:microsoft-dynamics-schemas/codeunit/eShopExportImport">', '')
+        # body = body.replace('</ExportOrderLines_Result>', '')
+        # body = body.replace('</s:Envelope>', '')
+        # body = body.replace(' xmlns="&lt;urn:microsoft-dynamics-nav/xmlports/eShopOrderLines&gt;"', '')
+        # body = body.replace('</faultstring>', '')
+        # body = body.replace('<faultstring>', '')
+        # body = body.replace('<faultcode ', '')
+        # body = body.replace('<s:Fault>xmlns:a="urn:microsoft-dynamics-schemas/error">a:Microsoft.Dynamics.Nav.Types.Exceptions.NavNCLDialogException</faultcode>', '')
+        print(body)
 
-        return {"body":body,"status_code":curl.getinfo(pycurl.HTTP_CODE)}
 
+prueba = BarCode("L.CALIBARDO","211111-64")
+prueba
 
 
 class BarCodeRepository:
