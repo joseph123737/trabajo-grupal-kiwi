@@ -66,6 +66,7 @@ export default {
       let response = await fetch("https://localhost:8080/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
+        this.errorMessage = false;
         document.getElementById("barCodeInput").disabled= false
         this.controlVariable = true;
         this.palot.lote_number = "";
@@ -80,6 +81,7 @@ export default {
         this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
+        this.setFocus();
       }
     },
     inputDisabledFalse(){
