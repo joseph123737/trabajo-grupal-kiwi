@@ -72,6 +72,7 @@ export default {
         this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
+        this.setFocus();
       }
       if (response.status == 500) {
         this.isLoading = false;
