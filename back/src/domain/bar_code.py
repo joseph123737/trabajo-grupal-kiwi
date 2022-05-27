@@ -1,5 +1,5 @@
 import io
-import xml.etree.cElementTree as e
+import xml.etree.cElementTree as ET
 import pycurl
 import sqlite3
 
@@ -18,7 +18,7 @@ class BarCode:
             "date": self.date,
             "user_name": self.user_name,
         }
-        
+
     def send_xml_to_erp(self):
         headers = [
             "Method: POST",
@@ -53,12 +53,28 @@ class BarCode:
 
         curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
         curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
-
+        status_code= curl.getinfo(pycurl.HTTP_CODE)
         curl.perform()
         curl.close()
 
         response = buffer.getvalue()
         body = response.decode("iso-8859-1")
+        root = ET.fromstring(body)
+        if status_code == 200:
+            response = root[0][0][0].text
+            print(response)
+            return response
+        else:
+            good = root[0][0][1].text
+            return good
+        
+
+       
+        # print(root.findall(".//:Body/   :Fault/faultcode"))
+        # for faultstring in root.iter('faultstring xml:lang="en-US"'):
+        #     print
+        # variable = root[0].text
+        # print("****************", variable)
 
         # body = body.replace('<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">', '')
         # body = body.replace('<s:Body>', '')
@@ -71,11 +87,7 @@ class BarCode:
         # body = body.replace('<faultstring>', '')
         # body = body.replace('<faultcode ', '')
         # body = body.replace('<s:Fault>xmlns:a="urn:microsoft-dynamics-schemas/error">a:Microsoft.Dynamics.Nav.Types.Exceptions.NavNCLDialogException</faultcode>', '')
-        print(body)
-
-
-prueba = BarCode("L.CALIBARDO","211111-64")
-prueba
+        
 
 
 class BarCodeRepository:
