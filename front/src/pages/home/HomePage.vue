@@ -7,9 +7,7 @@
       <li @click="goToBarCodePageCalibrated">
         <p>LINEA CALIBRADO</p>
       </li>
-      <li @click="goToBarCodePageStock">
-        <p>CUADRO EXISTENCIAS</p>
-      </li>
+
     </ul>
   </body>
 </template>
@@ -21,7 +19,6 @@ export default {
     return {
       basket: "L.CESTAS",
       calibrated: "L.CALIBRADO",
-      stock: "L.CUADRE",
     };
   },
   methods: {
@@ -31,10 +28,6 @@ export default {
     },
     goToBarCodePageCalibrated() {
       localStorage.line = this.calibrated;
-      this.$router.push("/barcode");
-    },
-    goToBarCodePageStock() {
-      localStorage.line = this.stock;
       this.$router.push("/barcode");
     },
   },
