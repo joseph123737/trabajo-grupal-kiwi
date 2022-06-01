@@ -8,6 +8,9 @@
     <div class="errorMessage" v-if="errorMessage">
       <p>Este codigo ya ha sido consumido</p>
     </div>
+    <div class="okMessage" v-if="okMessage">
+      <p>Guardado</p>
+    </div>
 
     <input
       name="barcode"
@@ -37,6 +40,7 @@ export default {
       isLoading: false,
       controlVariable:true,
       errorMessage: false,
+      okMessage: false,
     };
   },
   computed: {
@@ -62,11 +66,16 @@ export default {
       };
       this.controlVariable = false;
       this.isLoading= true
+      this.errorMessage = false;
+      this.okMessage = false;
+
+      
       document.getElementById("barCodeInput").disabled = true
       let response = await fetch("https://localhost:8080/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage = false;
+        this.okMessage = true;
         document.getElementById("barCodeInput").disabled= false
         this.controlVariable = true;
         this.palot.lote_number = "";
@@ -76,6 +85,7 @@ export default {
       }
       if (response.status == 500) {
         this.isLoading = false;
+        this.okMessage = false;
         document.getElementById("barCodeInput").disabled= false  
         this.controlVariable = true;
         this.errorMessage = true;
@@ -149,6 +159,20 @@ export default {
   0 0 0 20px #00000011,
   0 0  20px #000000,
   0 0 50px #000000;
+}
+.errorMessage{
+  border: 1px solid red;
+  background-color: red;
+  margin: 10px;
+  font-weight: 900;
+  color: white;
+}
+.okMessage{
+  border: 1px solid green;
+  background-color: green;
+  margin: 10px;
+  font-weight: 900;
+  color: white;
 }
 
 </style>
