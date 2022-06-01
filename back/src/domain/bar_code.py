@@ -53,7 +53,7 @@ class BarCode:
 
         curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
         curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
-        status_code= curl.getinfo(pycurl.HTTP_CODE)
+        status_code = curl.getinfo(pycurl.HTTP_CODE)
         curl.perform()
         curl.close()
 
@@ -67,9 +67,7 @@ class BarCode:
         else:
             good = root[0][0][1].text
             return good
-        
 
-       
         # print(root.findall(".//:Body/   :Fault/faultcode"))
         # for faultstring in root.iter('faultstring xml:lang="en-US"'):
         #     print
@@ -87,7 +85,6 @@ class BarCode:
         # body = body.replace('<faultstring>', '')
         # body = body.replace('<faultcode ', '')
         # body = body.replace('<s:Fault>xmlns:a="urn:microsoft-dynamics-schemas/error">a:Microsoft.Dynamics.Nav.Types.Exceptions.NavNCLDialogException</faultcode>', '')
-        
 
 
 class BarCodeRepository:
@@ -105,6 +102,7 @@ class BarCodeRepository:
             create table if not exists palots (
                 lote_number varchar primary key,
                 project varchar,
+                status_code,
                 date varchar
             )
         """
@@ -112,6 +110,7 @@ class BarCodeRepository:
         cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()
+        conn.close()
 
     def get_palots(self):
         sql = """select * from palots"""
@@ -129,16 +128,18 @@ class BarCodeRepository:
 
     def save_palot(self, palots):
         sql = """insert into palots (lote_number, project, date) values (
-            :lote_number, :project, DATE()
+            :lote_number, :project,:status_code, DATE()
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(
             sql,
             {
-                "lote_number": palots.lote_number,
-                "project": palots.project,
-                "date": palots.date,
+                "lote_number": palots["lote_number"],
+                "project": palots["project"],
+                "status_code": palots["status_code"],
+                "date": palots["date"],
             },
         )
         conn.commit()
+        conn.close()
