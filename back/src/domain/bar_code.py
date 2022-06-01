@@ -59,7 +59,7 @@ class BarCode:
 
         response = buffer.getvalue()
         body = response.decode("iso-8859-1")
-        
+
         root = ET.fromstring(body)
         result = []
         if status_code == 500:
@@ -76,10 +76,9 @@ class BarCode:
         if len(result) == 1:
             good_result = result[0]
         else:
-            good_result =result[1]
-        
-        return good_result
-        
+            good_result = result[1]
+        dict_to_return = {"status_code": status_code, "response": good_result}
+        return dict_to_return
 
 
 class BarCodeRepository:
@@ -97,8 +96,9 @@ class BarCodeRepository:
             create table if not exists palots (
                 lote_number varchar primary key,
                 project varchar,
-                status_code,
-                date varchar
+                status_code varchar,
+                date varchar,
+                response varchar
             )
         """
         conn = self.create_conn()
@@ -121,19 +121,20 @@ class BarCodeRepository:
 
         return result
 
-    def save_palot(self, palots):
-        sql = """insert into palots (lote_number, project, date) values (
-            :lote_number, :project,:status_code, DATE()
+    def save_palot(self, palot):
+        sql = """insert into palots (lote_number,status_code, project,response, date) values (
+            :lote_number, :project,:status_code,:response, DATE()
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(
             sql,
             {
-                "lote_number": palots["lote_number"],
-                "project": palots["project"],
-                "status_code": palots["status_code"],
-                "date": palots["date"],
+                "lote_number": palot["lote_number"],
+                "project": palot["project"],
+                "status_code": palot["status_code"],
+                "date": palot["date"],
+                "response": palot["response"],
             },
         )
         conn.commit()
