@@ -41,20 +41,28 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 ul {
   padding: 0;
   margin: 0;
+  list-style-type: none;
 }
 li {
   list-style: none;
-  border: 1px solid black;
   border-radius: 30px;
-  width: 50vw;
-  height: 25vh;
+  width: 80vw;
+  height: 35vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 3%;
+  margin-top: 5%;
+  margin-bottom: 10%;
+  font-size: 2em;
+  font-weight: bold;
+  background-color: rgb(230, 227, 227);
+  box-shadow: 5px 10px;
+  
+  
 }
 </style>
