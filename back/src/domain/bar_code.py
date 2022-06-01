@@ -59,34 +59,26 @@ class BarCode:
 
         response = buffer.getvalue()
         body = response.decode("iso-8859-1")
-        root = ET.fromstring(body)
-        if status_code == 200:
-            response = root[0][0][0].text
-            print(response)
-            return response
-        else:
-            good = root[0][0][1].text
-            return good
         
+        root = ET.fromstring(body)
+        result = []
+        if status_code == 500:
+            for body in root:
+                for fault in body:
+                    for faultstring in fault:
+                        result.append(faultstring.text)
+        else:
+            for body in root:
+                for comsuption in body:
+                    for return_value in comsuption:
+                        result.append(return_value.text)
 
-       
-        # print(root.findall(".//:Body/   :Fault/faultcode"))
-        # for faultstring in root.iter('faultstring xml:lang="en-US"'):
-        #     print
-        # variable = root[0].text
-        # print("****************", variable)
-
-        # body = body.replace('<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">', '')
-        # body = body.replace('<s:Body>', '')
-        # body = body.replace('</s:Body>', '')
-        # body = body.replace('<ExportOrderLines_Result xmlns="urn:microsoft-dynamics-schemas/codeunit/eShopExportImport">', '')
-        # body = body.replace('</ExportOrderLines_Result>', '')
-        # body = body.replace('</s:Envelope>', '')
-        # body = body.replace(' xmlns="&lt;urn:microsoft-dynamics-nav/xmlports/eShopOrderLines&gt;"', '')
-        # body = body.replace('</faultstring>', '')
-        # body = body.replace('<faultstring>', '')
-        # body = body.replace('<faultcode ', '')
-        # body = body.replace('<s:Fault>xmlns:a="urn:microsoft-dynamics-schemas/error">a:Microsoft.Dynamics.Nav.Types.Exceptions.NavNCLDialogException</faultcode>', '')
+        if len(result) == 1:
+            good_result = result[0]
+        else:
+            good_result =result[1]
+        
+        return good_result
         
 
 
