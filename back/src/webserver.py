@@ -19,11 +19,11 @@ def create_app(repositories):
             project=body["project"],
             lote_number=good_body,
         )
-        erp_response =   bar_code_unconverted.send_xml_to_erp()
+        erp_response = bar_code_unconverted.send_xml_to_erp()
+        repositories["barcode"].save_palot(erp_response)
         if erp_response == "true":
             return erp_response, 200
         else:
             return erp_response, 500
-        
 
     return app
