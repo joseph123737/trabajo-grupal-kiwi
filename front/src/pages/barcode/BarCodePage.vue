@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       palot: {
-        project: localStorage.line,
+        project: this.$route.params.line,
         lote_number: "",
       },
       correctBarCode: false,

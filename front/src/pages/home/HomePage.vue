@@ -24,11 +24,11 @@ export default {
   methods: {
     goToBarCodePageBaskets() {
       localStorage.line = this.basket;
-      this.$router.push("/barcode");
+      this.$router.push({name:"BarCode",params:{line:"L.CESTAS"}});
     },
     goToBarCodePageCalibrated() {
       localStorage.line = this.calibrated;
-      this.$router.push("/barcode");
+      this.$router.push({name:"BarCode",params:{line:"L.CALIBRADO"}});
     },
   },
 };
