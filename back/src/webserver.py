@@ -1,7 +1,7 @@
 from datetime import date
 from flask import Flask, request
 from flask_cors import CORS
-from src.domain.bar_code import BarCode
+from src.domain.bar_code import BarCode, BarCodeRepository
 
 
 def create_app(repositories):
@@ -32,6 +32,7 @@ def create_app(repositories):
         if erp_response["status_code"] == 200:
             return erp_response, 200
         if erp_response["status_code"] == 500:
+            bar_code_unconverted.send_error_to_erp(erp_response["response"])
             if erp_response["response"].startswith("Bin"):
                 return erp_response, 409
             else:

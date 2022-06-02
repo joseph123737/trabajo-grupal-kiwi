@@ -75,6 +75,42 @@ class BarCode:
         dict_to_return = {"status_code": status_code, "response": good_result}
         return dict_to_return
 
+    def send_error_to_erp(self, error_mensage):
+        headers = [
+            "Method: POST",
+            "Connection: Keep-Alive",
+            "User-Agent: PHP-SOAP-CURL",
+            "Content-Type: text/xml; charset=utf-8",
+            'SOAPAction:"SendErrorConsume"',
+        ]
+        body_to_send = f"""<?xml version="1.0" encoding="UTF-8"?>
+	              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:app="urn:microsoft-dynamics-schemas/codeunit/APP_MGMT">
+	              <soapenv:Header/>
+	              <soapenv:Body>
+		              <app:SendErrorConsume>
+			            <app:pJobNoConsume>{self.project}</app:pJobNoConsume>
+			            <app:pBarcodeConsume>{self.lote_number}</app:pBarcodeConsume>
+			            <app:pResourceNoConsume>IK</app:pResourceNoConsume>
+                        <app:pErrorConsume>{error_mensage}</app:pErrorConsume>
+		              </app:SendErrorConsume>
+	              </soapenv:Body>
+	              </soapenv:Envelope>"""
+
+        curl = pycurl.Curl()
+        curl.setopt(
+            pycurl.URL,
+            "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT",
+        )
+        curl.setopt(pycurl.HTTPHEADER, headers)
+        curl.setopt(pycurl.POST, 1)
+        curl.setopt(pycurl.POSTFIELDS, body_to_send)
+
+        curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
+        curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
+
+        curl.perform()
+        curl.close()
+
 
 class BarCodeRepository:
     def __init__(self, database_path):
