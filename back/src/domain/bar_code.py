@@ -2,6 +2,7 @@ import io
 import xml.etree.cElementTree as ET
 import pycurl
 import sqlite3
+from config import url
 
 
 class BarCode:
@@ -44,7 +45,7 @@ class BarCode:
 
         curl.setopt(
             pycurl.URL,
-            "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT",
+            url,
         )
         curl.setopt(pycurl.HTTPHEADER, headers)
         curl.setopt(pycurl.POST, 1)
@@ -99,7 +100,7 @@ class BarCode:
         curl = pycurl.Curl()
         curl.setopt(
             pycurl.URL,
-            "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT",
+            url,
         )
         curl.setopt(pycurl.HTTPHEADER, headers)
         curl.setopt(pycurl.POST, 1)
