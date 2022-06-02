@@ -53,7 +53,6 @@ class BarCode:
 
         curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
         curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
-        status_code = curl.getinfo(pycurl.HTTP_CODE)
         curl.perform()
         curl.close()
 
@@ -62,21 +61,17 @@ class BarCode:
 
         root = ET.fromstring(body)
         result = []
-        if status_code == 500:
-            for body in root:
-                for fault in body:
-                    for faultstring in fault:
-                        result.append(faultstring.text)
-        else:
-            for body in root:
-                for comsuption in body:
-                    for return_value in comsuption:
-                        result.append(return_value.text)
+        for body in root:
+            for fault in body:
+                for faultstring in fault:
+                    result.append(faultstring.text)
 
         if len(result) == 1:
             good_result = result[0]
+            status_code = 200
         else:
             good_result = result[1]
+            status_code = 500
         dict_to_return = {"status_code": status_code, "response": good_result}
         return dict_to_return
 
@@ -94,11 +89,11 @@ class BarCodeRepository:
     def init_tables(self):
         sql = """
             create table if not exists palots (
-                lote_number varchar primary key,
+                lote_number varchar,
                 project varchar,
                 status_code varchar,
-                date varchar,
-                response varchar
+                response varchar,
+                date varchar
             )
         """
         conn = self.create_conn()
@@ -122,7 +117,7 @@ class BarCodeRepository:
         return result
 
     def save_palot(self, palot):
-        sql = """insert into palots (lote_number,status_code, project,response, date) values (
+        sql = """insert into palots (lote_number, project,status_code,response, date) values (
             :lote_number, :project,:status_code,:response, DATE()
         ) """
         conn = self.create_conn()

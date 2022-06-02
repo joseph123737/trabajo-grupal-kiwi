@@ -23,15 +23,18 @@ def create_app(repositories):
         erp_response = bar_code_unconverted.send_xml_to_erp()
         dict_to_save = {
             "status_code": erp_response["status_code"],
-            "proyect": bar_code_unconverted.proyect,
+            "project": bar_code_unconverted.project,
             "lote_number": bar_code_unconverted.lote_number,
             "response": erp_response["response"],
             "date": bar_code_unconverted.date,
         }
         repositories["barcode"].save_palot(dict_to_save)
-        if erp_response == "true":
+        if erp_response["status_code"] == 200:
             return erp_response, 200
-        else:
-            return erp_response, 500
+        if erp_response["status_code"] == 500:
+            if erp_response["response"].startswith("Bin"):
+                return erp_response, 409
+            else:
+                return erp_response, 404
 
     return app
