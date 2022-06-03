@@ -7,17 +7,15 @@ const routes = [
     component: () => import('@/pages/home/HomePage.vue'),
   },
   {
+    path:'/selectLine',
+    name:'SelectLine',
+    component: () => import('@/pages/selectLine/SelectLinePage.vue'),
+  },
+  {
     path: '/:line',
     name: 'BarCode',
     component: () => import('@/pages/barcode/BarCodePage.vue'),
   },
-  {
-    path: '/qrcode',
-    name: 'QrCode',
-    component: () => import('@/pages/qr/QrPageLecture.vue'),
-  },
-
-
 ]
 
 const router = createRouter({
