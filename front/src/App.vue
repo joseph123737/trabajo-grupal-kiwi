@@ -1,7 +1,5 @@
 <template>
-  <div id="nav">
-    <p @click="goToLines">ELEGIR LINEA</p>
-  </div>
+  
   <router-view />
 </template>
 
@@ -25,6 +23,7 @@ export default {
   display: flex;
   justify-content: center;
   }
+ 
 p{
   font-size: 3em;
   margin: auto;

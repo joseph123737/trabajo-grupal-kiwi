@@ -35,6 +35,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 body {
   height: 100%;
   overflow-y: hidden;
