@@ -1,7 +1,8 @@
 <template>
 <body>
   <div class="main">
-    <h1 class="title">Escanea el codigo Qr de la linea como el siguiente,que encontraras en la linea correspondiente: </h1>
+    <h1 class="title" v-if="mesageDefault">Escanee el QR que encontrara en la linea de trabajo correspondiente, que se parece a este</h1>
+    <h1 v-if="mesageError" class="errorMessage">ESCANEE UN QR NO UN CODIGO DE BARRAS</h1>
     <input
       name="barcode"
       v-model="lineUrl"
@@ -17,7 +18,7 @@
       <img src="@/assets/img/qr_buena_prueba_viernes.png" alt="QR" class="qrCode">
     </div>
   <router-link :to="{name:'SelectLine'}" class="routerLink">
-      <button class="button">O eligue manualmete</button>
+      <button class="button">O elige manualmente</button>
   </router-link>
   </div>
 </body>
@@ -30,14 +31,29 @@ export default {
   data(){
     return{
       lineUrl:"",
+      mesageError:false,
+      mesageDefault:true,
     }
+  },
+  mounted(){
+    this.setFocus();
   },
   methods:{
     setFocus() {
       this.$refs.myInput.focus();
     },
     goToLine(lineUrl){
-      location.href = lineUrl
+      if(lineUrl.startsWith("http")){
+        location.href = lineUrl
+      } else {
+        this.mesageDefault= false
+        this.mesageError = true
+        this.lineUrl= "";
+        this.setFocus();
+        
+        
+      }
+     
       
     }
   }
@@ -57,10 +73,13 @@ export default {
   flex-direction: column;
   align-items: center;
 }
+.errorMessage{
+  color:#ff1e00
+}
 #urlLinea{
   align-items: center;
   margin-bottom: 1.5em;
-  margin-left: -7000px;
+  /* margin-left: -7000px; */
   width: 70%;
   height: 1.5em;
   padding: 0.2px;
@@ -73,7 +92,7 @@ export default {
   
 }
 .button {
-  width: 500px;
+  width: 350px;
   margin-top: 1em;
   color: #318aac ;
   font-size: 25px;
