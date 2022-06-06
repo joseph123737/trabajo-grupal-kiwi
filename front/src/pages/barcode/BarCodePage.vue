@@ -1,10 +1,15 @@
 <template>
   <body v-bind:style="{ backgroundColor: color}">
-    <h2 class="project">{{ this.palot.project }}</h2>
-    <h2>{{this.counter}}</h2>
+
+    <!-- Page text -->
+    <h2 class="project">-{{ this.palot.project }}-</h2>
+    <p class="instruction">ESCANEE EL CODIGO DE BARRAS</p>
+    <!-- Page loading effect -->
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
     </div>
+
+    <!-- Feedback message -->
     <div class="errorMessage" v-if="errorMessage409">
       <p>Este codigo ya ha sido consumido</p>
     </div>
@@ -15,7 +20,9 @@
       <p>Este palot a sido leido y guardado correctamente</p>
     </div>
 
+    <!-- Barcode scanner input -->
     <input
+      class="input"
       name="barcode"
       v-model="palot.lote_number"
       v-on:keyup.enter="sentData(palot)"
@@ -24,9 +31,10 @@
       type="text"
       id="barCodeInput"
       placeholder="Codigo de barras"
-      
     />
-    <button @click="goToLines">ELEGIR LINEA</button>
+    <div class="btn bottom">
+      <button @click="goToLines">Volver a Lineas</button>
+    </div>
   </body>
 </template>
 
@@ -41,7 +49,6 @@ export default {
       },
       color: 'white',
       correctBarCode: false,
-      counter: 0,
       isLoading: false,
       controlVariable:true,
       errorMessage409: false,
@@ -77,7 +84,7 @@ export default {
 
       
       document.getElementById("barCodeInput").disabled = true
-      let response = await fetch("https://localhost:8080/api/barcode", settings);
+      let response = await fetch("https://192.168.21.113:8081/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage409 = false;
@@ -87,7 +94,6 @@ export default {
         document.getElementById("barCodeInput").disabled= false
         this.controlVariable = true;
         this.palot.lote_number = "";
-        this.counter += 1;
         this.correctBarCode = true;
         this.setFocus();
       }
@@ -99,7 +105,6 @@ export default {
         this.errorMessage404 = false
         this.errorMessage409 = true;
         this.palot.lote_number = "";
-        this.counter += 1;
         this.correctBarCode = true;
         this.setFocus();
       }
@@ -110,9 +115,7 @@ export default {
         document.getElementById("barCodeInput").disabled= false  
         this.controlVariable = true;
         this.errorMessage404 = true;
-        
         this.palot.lote_number = "";
-        this.counter += 1;
         this.correctBarCode = true;
         this.setFocus();
       }
@@ -136,15 +139,28 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+
 body{
   justify-content: center;
   min-height: 100vh;
 }
-.correctBarCode {
-  background-color: rgb(95, 207, 95);
-  border: 2px solid green;
+.project{
+  color: rgb(3, 8, 70);
+  margin-top: 2em;
+  font-size: 3em;
 }
+.instruction{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 4em;
+  color: rgb(3, 8, 70);
+}
+.input{
+  margin: 10%;
+}
+
+
 /* Loading effect */
 .container{
   position:fixed;
@@ -207,24 +223,25 @@ body{
 button {
   align-items: center;
   appearance: none;
-  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  background-image: radial-gradient(100% 100% at 100% 0, #00478d 0, #020c47 100%);
   border: 0;
   border-radius: 6px;
-  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-shadow: rgb(0, 0, 0) 0 2px 4px,rgb(10, 7, 15) 0 7px 13px -3px,rgb(17, 19, 32) 0 -3px 0 inset;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: inline-flex;
   font-family: "JetBrains Mono",monospace;
+  font-weight: 900;;
   height: 10vh;
-  width: 100vw;
+  min-width: 95vw;
   justify-content: center;
   line-height: 1;
   list-style: none;
   overflow: hidden;
   padding-left: 16px;
   padding-right: 16px;
-  position: relative;
+  position:relative;
   text-align: left;
   text-decoration: none;
   transition: box-shadow .15s,transform .15s;
@@ -248,6 +265,10 @@ button:hover {
 button:active {
   box-shadow: #3c4fe0 0 3px 7px inset;
   transform: translateY(2px);
+}
+.bottom{
+  position: absolute;
+  bottom: 0;
 }
 
 </style>
