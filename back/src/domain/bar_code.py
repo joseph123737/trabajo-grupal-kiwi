@@ -2,6 +2,7 @@ import io
 import xml.etree.cElementTree as ET
 import pycurl
 import sqlite3
+from config import url
 
 
 class BarCode:
@@ -44,7 +45,7 @@ class BarCode:
 
         curl.setopt(
             pycurl.URL,
-            "http://80.24.99.155:9074/NutriNav2016GaraiaReal/WS/2002%2004%2010%20COPIA%20IK/Codeunit/APP_MGMT",
+            url,
         )
         curl.setopt(pycurl.HTTPHEADER, headers)
         curl.setopt(pycurl.POST, 1)
@@ -53,33 +54,63 @@ class BarCode:
 
         curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
         curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
-        status_code = curl.getinfo(pycurl.HTTP_CODE)
         curl.perform()
         curl.close()
 
         response = buffer.getvalue()
         body = response.decode("iso-8859-1")
-        
+
         root = ET.fromstring(body)
         result = []
-        if status_code == 500:
-            for body in root:
-                for fault in body:
-                    for faultstring in fault:
-                        result.append(faultstring.text)
-        else:
-            for body in root:
-                for comsuption in body:
-                    for return_value in comsuption:
-                        result.append(return_value.text)
+        for body in root:
+            for fault in body:
+                for faultstring in fault:
+                    result.append(faultstring.text)
 
         if len(result) == 1:
             good_result = result[0]
+            status_code = 200
         else:
-            good_result =result[1]
-        
-        return good_result
-        
+            good_result = result[1]
+            status_code = 500
+        dict_to_return = {"status_code": status_code, "response": good_result}
+        return dict_to_return
+
+    def send_error_to_erp(self, error_mensage):
+        headers = [
+            "Method: POST",
+            "Connection: Keep-Alive",
+            "User-Agent: PHP-SOAP-CURL",
+            "Content-Type: text/xml; charset=utf-8",
+            'SOAPAction:"SendErrorConsume"',
+        ]
+        body_to_send = f"""<?xml version="1.0" encoding="UTF-8"?>
+	              <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:app="urn:microsoft-dynamics-schemas/codeunit/APP_MGMT">
+	              <soapenv:Header/>
+	              <soapenv:Body>
+		              <app:SendErrorConsume>
+			            <app:pJobNoConsume>{self.project}</app:pJobNoConsume>
+			            <app:pBarcodeConsume>{self.lote_number}</app:pBarcodeConsume>
+			            <app:pResourceNoConsume>IK</app:pResourceNoConsume>
+                        <app:pErrorConsume>{error_mensage}</app:pErrorConsume>
+		              </app:SendErrorConsume>
+	              </soapenv:Body>
+	              </soapenv:Envelope>"""
+
+        curl = pycurl.Curl()
+        curl.setopt(
+            pycurl.URL,
+            url,
+        )
+        curl.setopt(pycurl.HTTPHEADER, headers)
+        curl.setopt(pycurl.POST, 1)
+        curl.setopt(pycurl.POSTFIELDS, body_to_send)
+
+        curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_NTLM)
+        curl.setopt(pycurl.USERPWD, "GARAIAKOOP\\navision:Navi@GaraiaKoop")
+
+        curl.perform()
+        curl.close()
 
 
 class BarCodeRepository:
@@ -95,9 +126,10 @@ class BarCodeRepository:
     def init_tables(self):
         sql = """
             create table if not exists palots (
-                lote_number varchar primary key,
+                lote_number varchar,
                 project varchar,
-                status_code,
+                status_code varchar,
+                response varchar,
                 date varchar
             )
         """
@@ -121,19 +153,20 @@ class BarCodeRepository:
 
         return result
 
-    def save_palot(self, palots):
-        sql = """insert into palots (lote_number, project, date) values (
-            :lote_number, :project,:status_code, DATE()
+    def save_palot(self, palot):
+        sql = """insert into palots (lote_number, project,status_code,response, date) values (
+            :lote_number, :project,:status_code,:response, DATE()
         ) """
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(
             sql,
             {
-                "lote_number": palots["lote_number"],
-                "project": palots["project"],
-                "status_code": palots["status_code"],
-                "date": palots["date"],
+                "lote_number": palot["lote_number"],
+                "project": palot["project"],
+                "status_code": palot["status_code"],
+                "date": palot["date"],
+                "response": palot["response"],
             },
         )
         conn.commit()

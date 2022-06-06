@@ -7,22 +7,20 @@ const routes = [
     component: () => import('@/pages/home/HomePage.vue'),
   },
   {
-    path: '/barcode',
+    path:'/selectLine',
+    name:'SelectLine',
+    component: () => import('@/pages/selectLine/SelectLinePage.vue'),
+  },
+  {
+    path: '/:line',
     name: 'BarCode',
     component: () => import('@/pages/barcode/BarCodePage.vue'),
   },
-  {
-    path: '/qrcode',
-    name: 'QrCode',
-    component: () => import('@/pages/qr/QrPageLecture.vue'),
-  },
-  
-  
 ]
 
 const router = createRouter({
-	history: createWebHistory(process.env.BASE_URL),
-	routes,
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
 });
 
 export default router;

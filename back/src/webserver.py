@@ -1,6 +1,7 @@
+from datetime import date
 from flask import Flask, request
 from flask_cors import CORS
-from src.domain.bar_code import BarCode
+from src.domain.bar_code import BarCode, BarCodeRepository
 
 
 def create_app(repositories):
@@ -20,10 +21,21 @@ def create_app(repositories):
             lote_number=good_body,
         )
         erp_response = bar_code_unconverted.send_xml_to_erp()
-        repositories["barcode"].save_palot(erp_response)
-        if erp_response == "true":
+        dict_to_save = {
+            "status_code": erp_response["status_code"],
+            "project": bar_code_unconverted.project,
+            "lote_number": bar_code_unconverted.lote_number,
+            "response": erp_response["response"],
+            "date": bar_code_unconverted.date,
+        }
+        repositories["barcode"].save_palot(dict_to_save)
+        if erp_response["status_code"] == 200:
             return erp_response, 200
-        else:
-            return erp_response, 500
+        if erp_response["status_code"] == 500:
+            bar_code_unconverted.send_error_to_erp(erp_response["response"])
+            if erp_response["response"].startswith("Bin"):
+                return erp_response, 409
+            else:
+                return erp_response, 404
 
     return app

@@ -5,11 +5,14 @@
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
     </div>
-    <div class="errorMessage" v-if="errorMessage">
+    <div class="errorMessage" v-if="errorMessage409">
       <p>Este codigo ya ha sido consumido</p>
     </div>
+    <div class="errorMessage" v-if="errorMessage404">
+      <p>Este palot no existe</p>
+    </div>
     <div class="okMessage" v-if="okMessage">
-      <p>Guardado</p>
+      <p>Este palot a sido leido y guardado correctamente</p>
     </div>
 
     <input
@@ -33,7 +36,7 @@ export default {
   data() {
     return {
       palot: {
-        project: localStorage.line,
+        project: this.$route.params.line,
         lote_number: "",
       },
       color: 'white',
@@ -41,7 +44,8 @@ export default {
       counter: 0,
       isLoading: false,
       controlVariable:true,
-      errorMessage: false,
+      errorMessage409: false,
+      errorMessage404: false,
       okMessage: false,
     };
   },
@@ -76,7 +80,8 @@ export default {
       let response = await fetch("https://localhost:8080/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
-        this.errorMessage = false;
+        this.errorMessage409 = false;
+        this.errorMessage404 = false;
         this.okMessage = true;
         this.color= "green";
         document.getElementById("barCodeInput").disabled= false
@@ -86,13 +91,26 @@ export default {
         this.correctBarCode = true;
         this.setFocus();
       }
-      if (response.status == 500) {
+      if (response.status == 409) {
         this.isLoading = false;
         this.okMessage = false;
-        this.color= "red";
         document.getElementById("barCodeInput").disabled= false  
         this.controlVariable = true;
-        this.errorMessage = true;
+        this.errorMessage404 = false
+        this.errorMessage409 = true;
+        this.palot.lote_number = "";
+        this.counter += 1;
+        this.correctBarCode = true;
+        this.setFocus();
+      }
+      if (response.status == 404) {
+        this.isLoading = false;
+        this.okMessage = false;
+        this.errorMessage409 = false
+        document.getElementById("barCodeInput").disabled= false  
+        this.controlVariable = true;
+        this.errorMessage404 = true;
+        
         this.palot.lote_number = "";
         this.counter += 1;
         this.correctBarCode = true;
