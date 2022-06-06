@@ -1,8 +1,8 @@
 <template>
 <body>
   <div class="main">
-    <h1 class="title" v-if="mesageDefault">Escanee el QR que encontrara en la linea de trabajo correspondiente, que se parece a este.</h1>
-    <h1 v-if="mesageError" class="errorMessage">ESCANEE UN QR NO UN CODIGO DE BARRAS PORFAVOR</h1>
+    <h1 class="title" v-if="mesageDefault">Escanee el QR que encontrará en la línea de trabajo correspondiente, que se parece a éste.</h1>
+    <h1 v-if="mesageError" class="errorMessage">ESCANEE UN QR NO UN CÓDIGO DE BARRAS POR FAVOR</h1>
     <input
       name="barcode"
       v-model="lineUrl"
