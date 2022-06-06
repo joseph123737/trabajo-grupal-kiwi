@@ -75,7 +75,7 @@ export default {
 
       
       document.getElementById("barCodeInput").disabled = true
-      let response = await fetch("https://localhost:8080/api/barcode", settings);
+      let response = await fetch("https://192.168.21.62:8080/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage409 = false;
