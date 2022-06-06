@@ -1,5 +1,5 @@
 <template>
-  <body>
+  <body v-bind:style="{ backgroundColor: color}">
     <h2 class="project">{{ this.palot.project }}</h2>
     <h2>{{this.counter}}</h2>
     <div class="container" v-if="isLoading">
@@ -26,6 +26,7 @@
       placeholder="Codigo de barras"
       
     />
+    <button @click="goToLines">ELEGIR LINEA</button>
   </body>
 </template>
 
@@ -38,6 +39,7 @@ export default {
         project: this.$route.params.line,
         lote_number: "",
       },
+      color: 'white',
       correctBarCode: false,
       counter: 0,
       isLoading: false,
@@ -81,6 +83,7 @@ export default {
         this.errorMessage409 = false;
         this.errorMessage404 = false;
         this.okMessage = true;
+        this.color= "green";
         document.getElementById("barCodeInput").disabled= false
         this.controlVariable = true;
         this.palot.lote_number = "";
@@ -134,11 +137,15 @@ export default {
 </script>
 
 <style>
-
+body{
+  justify-content: center;
+  min-height: 100vh;
+}
 .correctBarCode {
-  background-color: rgb(16, 212, 16);
+  background-color: rgb(95, 207, 95);
   border: 2px solid green;
 }
+/* Loading effect */
 .container{
   position:fixed;
   width:100%;
@@ -164,6 +171,7 @@ export default {
       transform: rotate(360deg)
   }
 }
+
 .container .ring::before{
   content:"";
   position:absolute;
@@ -179,6 +187,7 @@ export default {
   0 0  20px #000000,
   0 0 50px #000000;
 }
+/* Error mesage */
 .errorMessage{
   border: 1px solid red;
   background-color: red;
@@ -192,6 +201,53 @@ export default {
   margin: 10px;
   font-weight: 900;
   color: white;
+}
+
+/* button style */
+button {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 10vh;
+  width: 100vw;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+button:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+button:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+button:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
 }
 
 </style>
