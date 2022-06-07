@@ -17,9 +17,9 @@
     <div class="imgContainer">
       <img src="@/assets/img/qr_buena_prueba_viernes.png" alt="QR" class="qrCode">
     </div>
-  <router-link :to="{name:'SelectLine'}" class="routerLink">
-      <button class="button">O elige manualmente</button>
-  </router-link>
+  <div class="routerLink">
+      <button class="button" @click="goToSelectLine()">O elige manualmente</button>
+  </div>
   </div>
 </body>
   
@@ -41,6 +41,9 @@ export default {
   methods:{
     setFocus() {
       this.$refs.myInput.focus();
+    },
+    goToSelectLine(){
+      this.$router.push("/selectLine")
     },
     goToLine(lineUrl){
       if(lineUrl.startsWith("http")){
@@ -85,6 +88,10 @@ export default {
   padding: 0.2px;
 
 }
+.title{
+  color: rgb(3, 8, 70);
+  font-family: "JetBrains Mono",monospace;
+}
 .qrCode{
   margin: 5%;
  width: 70%;
@@ -92,18 +99,35 @@ export default {
   
 }
 .button {
-  width: 350px;
-  margin-top: 1em;
-  color: #318aac ;
-  font-size: 25px;
-  font-weight: 500;
-  padding: 0.5em 1.2em;
-  background: rgba(0, 0, 0, 0);
-  border: 2px solid;
-  border-color: #318aac;
-  transition: all 0.5s ease;
-  position: relative;
-  box-shadow: 5px 6px;
+  margin-top: 5px;
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, #00478d 0, #061150 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgb(0, 0, 0) 0 2px 4px,rgb(10, 7, 15) 0 7px 13px -3px,rgb(17, 19, 32) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  font-weight: 900;;
+  height: 10vh;
+  min-width: 95vw;
+  justify-content: center;
+  line-height: 1;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position:relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  font-size: 18px;
 }
 
 </style>

@@ -36,7 +36,9 @@ export default {
 
 <style scoped>
 
-
+p{
+  color: rgb(255, 255, 255);
+}
 body {
   height: 100%;
   overflow-y: hidden;
@@ -62,7 +64,7 @@ li {
   margin-bottom: 10%;
   font-size: 2em;
   font-weight: bold;
-  background-color: rgb(230, 227, 227);
+  background-image: radial-gradient(100% 100% at 100% 0, #00478d 0, #020c47 100%);
   box-shadow: 5px 10px;
   
   

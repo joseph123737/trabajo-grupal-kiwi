@@ -1,15 +1,15 @@
 <template>
   <body v-bind:style="{ backgroundColor: color}">
 
-    <!-- Page text -->
+   
     <h2 class="project">-{{ this.palot.project }}-</h2>
     <p class="instruction">ESCANEE EL CODIGO DE BARRAS</p>
-    <!-- Page loading effect -->
+    
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
     </div>
 
-    <!-- Feedback message -->
+    
     <div class="errorMessage" v-if="errorMessage409">
       <p>Este codigo ya ha sido consumido</p>
     </div>
@@ -20,7 +20,7 @@
       <p>Este palot a sido leido y guardado correctamente</p>
     </div>
 
-    <!-- Barcode scanner input -->
+    
     <input
       class="input"
       name="barcode"
@@ -32,7 +32,7 @@
       id="barCodeInput"
       placeholder="Codigo de barras"
     />
-    <div class="btn bottom">
+    <div class="bottom">
       <button @click="goToLines">Volver a Lineas</button>
     </div>
   </body>
@@ -77,6 +77,10 @@ export default {
           "Content-Type": "application/json",
         },
       };
+      this.color="white"
+      this.errorMessage409=false;
+      this.errorMessage404=false;
+      this.okMessage= false;
       this.controlVariable = false;
       this.isLoading= true
       this.errorMessage = false;
@@ -84,7 +88,7 @@ export default {
 
       
       document.getElementById("barCodeInput").disabled = true
-      let response = await fetch("https://192.168.21.113:8081/api/barcode", settings);
+      let response = await fetch("https://192.168.21.62:8080/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage409 = false;
@@ -105,6 +109,7 @@ export default {
         this.errorMessage404 = false
         this.errorMessage409 = true;
         this.palot.lote_number = "";
+        this.color= "red";
         this.correctBarCode = true;
         this.setFocus();
       }
@@ -115,6 +120,7 @@ export default {
         document.getElementById("barCodeInput").disabled= false  
         this.controlVariable = true;
         this.errorMessage404 = true;
+        this.color="red";
         this.palot.lote_number = "";
         this.correctBarCode = true;
         this.setFocus();
@@ -133,8 +139,10 @@ export default {
     },
     setFocus() {
       this.$refs.myInput.focus();
-      
     },
+    goToLines(){
+      this.$router.push("/selectLine")
+    }
   },
 };
 </script>
@@ -148,12 +156,12 @@ body{
 }
 .project{
   color: rgb(3, 8, 70);
-  margin-top: 2em;
+  margin-top: 0.7em;
   font-size: 3em;
 }
 .instruction{
   font-family: 'Open Sans', sans-serif;
-  font-size: 4em;
+  font-size: 3.5em;
   color: rgb(3, 8, 70);
 }
 .input{
@@ -221,9 +229,11 @@ body{
 
 /* button style */
 button {
+  margin-top: 20px;
+  margin-left: 13px;
   align-items: center;
   appearance: none;
-  background-image: radial-gradient(100% 100% at 100% 0, #00478d 0, #020c47 100%);
+  background-image: radial-gradient(100% 100% at 100% 0, #00478d 0, #061150 100%);
   border: 0;
   border-radius: 6px;
   box-shadow: rgb(0, 0, 0) 0 2px 4px,rgb(10, 7, 15) 0 7px 13px -3px,rgb(17, 19, 32) 0 -3px 0 inset;
@@ -234,7 +244,7 @@ button {
   font-family: "JetBrains Mono",monospace;
   font-weight: 900;;
   height: 10vh;
-  min-width: 95vw;
+  min-width: 85vw;
   justify-content: center;
   line-height: 1;
   list-style: none;
@@ -253,22 +263,7 @@ button {
   font-size: 18px;
 }
 
-button:focus {
-  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
-}
 
-button:hover {
-  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
-  transform: translateY(-2px);
-}
 
-button:active {
-  box-shadow: #3c4fe0 0 3px 7px inset;
-  transform: translateY(2px);
-}
-.bottom{
-  position: absolute;
-  bottom: 0;
-}
 
 </style>
