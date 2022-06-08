@@ -19,6 +19,7 @@
     <div class="okMessage" v-if="okMessage">
       <p>Este palot a sido leido y guardado correctamente</p>
     </div>
+    <audio id="audio" controls><source type="audio/wav" src="@/assets/audio/grocery-scanning_1.wav"></audio>
 
     
     <input
@@ -70,6 +71,8 @@ export default {
   },
   methods: {
     async sentData(palot) {
+      let myAudio = document.getElementById("audio")
+      myAudio.play()
       const settings = {
         method: "POST",
         body: JSON.stringify(palot),
@@ -78,7 +81,7 @@ export default {
         },
       };
       this.color="white"
-      this.errorMessage409=false;
+      this.errorMessajosephhduvalgarciage409=false;
       this.errorMessage404=false;
       this.okMessage= false;
       this.controlVariable = false;
@@ -88,7 +91,8 @@ export default {
 
       
       document.getElementById("barCodeInput").disabled = true
-      let response = await fetch("https://192.168.21.62:8080/api/barcode", settings);
+      
+      let response = await fetch("https://192.168.21.143:8081/api/barcode", settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage409 = false;
@@ -149,6 +153,9 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+#audio{
+  display: none;
+}
 
 body{
   justify-content: center;
