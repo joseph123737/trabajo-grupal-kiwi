@@ -40,7 +40,10 @@ export default {
   },
   methods:{
     setFocus() {
-      this.$refs.myInput.focus();
+      setInterval(()=>{
+        this.$refs.myInput.focus()
+      },
+      500)
     },
     goToSelectLine(){
       this.$router.push("/selectLine")
@@ -82,7 +85,7 @@ export default {
 #urlLinea{
   align-items: center;
   margin-bottom: 1.5em;
-  margin-left: -7000px;
+  /* margin-left: -7000px; */
   width: 70%;
   height: 1.5em;
   padding: 0.2px;
