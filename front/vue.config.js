@@ -1,8 +1,9 @@
+import {backUrl} from "@/config.js"
 module.exports = {
     devServer: {
         proxy: {
           "^/api": {
-            target: "http://192.168.21.143:5000/",
+            target: backUrl,
             ws: true,
             changeOrigin: true,
           },
