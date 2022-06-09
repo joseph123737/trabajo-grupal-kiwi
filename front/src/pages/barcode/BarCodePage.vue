@@ -2,8 +2,9 @@
   <body v-bind:style="{ backgroundColor: color}">
 
    
-    <h2 class="project">-{{ this.palot.project }}-</h2>
-    <p class="instruction">ESCANEE EL CODIGO DE BARRAS</p>
+    <h2 class="project" v-bind:style="{color: lineColor}">-{{ this.palot.project }}-</h2>
+    <p class="instruction" v-if="!selectMessage" >ESCANEE EL C.B. DEL PALOT</p>
+    <p class="instruction " v-if="selectMessage" >ESCANEE EL CODIGO QR DE LINEA </p>
     
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
@@ -11,13 +12,16 @@
 
     
     <div class="errorMessage" v-if="errorMessage409">
-      <p>Este codigo ya ha sido consumido</p>
+      <p>DUPLICADO</p>
     </div>
     <div class="errorMessage" v-if="errorMessage404">
-      <p>Este palot no existe</p>
+      <p>ERROR</p>
+    </div>
+    <div class="errorMessageNoLine" v-if="errorMessageNoLineSelected">
+      <p>ERROR ESCANEE UN QR</p>
     </div>
     <div class="okMessage" v-if="okMessage">
-      <p>Este palot a sido leido y guardado correctamente</p>
+      <p>OK</p>
     </div>
 
     
@@ -25,16 +29,16 @@
       class="input"
       name="barcode"
       v-model="palot.lote_number"
-      v-on:keyup.enter="sentData(palot)"
+      v-on:keyup.enter="inputData(palot)"
+      @click="inputData(palot)"
       ref="myInput"
       autofocus
       type="text"
       id="barCodeInput"
       placeholder="Codigo de barras"
+      autocomplete="off"
     />
-    <div class="bottom">
-      <button @click="goToLines">Volver a Lineas</button>
-    </div>
+   
   </body>
 </template>
 
@@ -44,16 +48,19 @@ export default {
   data() {
     return {
       palot: {
-        project: this.$route.params.line,
+        project: "",
         lote_number: "",
       },
+      lineColor:"",
       color: 'white',
       correctBarCode: false,
       isLoading: false,
       controlVariable:true,
       errorMessage409: false,
       errorMessage404: false,
+      errorMessageNoLineSelected:false,
       okMessage: false,
+      selectMessage:true,
     };
   },
   computed: {
@@ -61,7 +68,10 @@ export default {
   },
   mounted() {
     this.inputDisabledFalse();
-    this.setFocus();
+    
+    setInterval(()=>{
+      this.setFocus();
+    },500);
     setTimeout(() => {
       this.isLoading = false;
     }, 1500);
@@ -69,8 +79,37 @@ export default {
     
   },
   methods: {
+    inputData(palot){
+      if (palot.lote_number == ("L.CESTAS")){this.palot.project = palot.lote_number;
+       this.palot.lote_number = "";
+       this.errorMessageNoLineSelected =false 
+       this.color="white";
+       this.lineColor="orange";
+       this.errorMessage409=false;
+      this.errorMessage404=false;
+      this.okMessage= false;
+      this.selectMessage = false;
+      } 
+      else if (palot.lote_number == ("L.CALIBRADO")){this.palot.project = palot.lote_number;
+       this.palot.lote_number = "";
+       this.errorMessageNoLineSelected = false
+       this.color="white";
+       this.lineColor="purple";
+       this.errorMessage409=false;
+      this.errorMessage404=false;
+      this.okMessage= false;
+      this.selectMessage = false;
+      } 
+     else{
+        this.sentData(palot);
+      }
+    },
     async sentData(palot) {
-      const settings = {
+        if(palot.project === ""){
+          this.errorMessageNoLineSelected = true
+          this.palot.lote_number = "";
+        }else{
+          const settings = {
         method: "POST",
         body: JSON.stringify(palot),
         headers: {
@@ -125,6 +164,10 @@ export default {
         this.correctBarCode = true;
         this.setFocus();
       }
+    }
+        
+      
+      
     },
     inputDisabledFalse(){
       var input = document.getElementById("barCodeInput")
@@ -164,8 +207,20 @@ body{
   font-size: 3.5em;
   color: rgb(3, 8, 70);
 }
+.errorMessage>p{
+  font-size: 3rem;
+}
+.okMessage>p{
+  font-size: 3rem;
+}
 .input{
-  margin: 10%;
+  margin-left: -10000px;
+  text-align: center;
+  margin: 5%;
+  width: 60%;
+  height: 2rem;
+  border: 2px solid #00478d;
+  
 }
 
 
@@ -215,14 +270,19 @@ body{
 .errorMessage{
   border: 1px solid red;
   background-color: red;
-  margin: 10px;
+  margin: 5px;
   font-weight: 900;
   color: white;
+}
+.errorMessageNoLine>p{
+  color: red;
+  font-size: 3rem;
+  font-weight: 900;
 }
 .okMessage{
   border: 1px solid green;
   background-color: green;
-  margin: 10px;
+  margin: 5px;
   font-weight: 900;
   color: white;
 }
