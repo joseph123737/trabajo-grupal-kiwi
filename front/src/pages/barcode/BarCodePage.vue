@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {frontUrl} from "@/config.js"
+import {frontUrl} from "@/router/config.js"
 export default {
   name: "barcode",
   data() {
