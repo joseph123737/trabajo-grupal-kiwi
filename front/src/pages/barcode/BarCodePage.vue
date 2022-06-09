@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {frontUrl} from "@/router/config.js"
+import {config} from "@/config.js"
 export default {
   name: "barcode",
   data() {
@@ -93,7 +93,7 @@ export default {
       
       document.getElementById("barCodeInput").disabled = true
       
-      let response = await fetch(`${frontUrl}api/barcode`, settings);
+      let response = await fetch(`${config.API_PATH}api/barcode`, settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage409 = false;
