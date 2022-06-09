@@ -222,15 +222,18 @@ body{
 .okMessage>p{
   font-size: 3rem;
 }
-.input{
-  margin-left: -10000px;
-  text-align: center;
-  margin: 5%;
-  width: 60%;
-  height: 2rem;
-  border: 2px solid #00478d;
-  
+
+ 
+  .input[data-v-600ef54c] {
+	margin-left: -7000px;
+	text-align: center;
+	margin: 5%;
+	width: 60%;
+	height: 2rem;
+	border: 2px solid #00478d;
+	margin-left: -10000px;
 }
+
 
 
 /* Loading effect */
