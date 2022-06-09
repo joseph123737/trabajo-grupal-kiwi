@@ -23,6 +23,7 @@
     <div class="okMessage" v-if="okMessage">
       <p>OK</p>
     </div>
+    <audio id="audio" controls><source type="audio/wav" src="@/assets/audio/grocery-scanning_1.wav"></audio>
 
     
     <input
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import {config} from "@/config.js"
 export default {
   name: "barcode",
   data() {
@@ -109,7 +111,10 @@ export default {
           this.errorMessageNoLineSelected = true
           this.palot.lote_number = "";
         }else{
-          const settings = {
+          
+        let myAudio = document.getElementById("audio")
+        myAudio.play()
+        const settings = {
         method: "POST",
         body: JSON.stringify(palot),
         headers: {
@@ -117,7 +122,7 @@ export default {
         },
       };
       this.color="white"
-      this.errorMessage409=false;
+      this.errorMessajosephhduvalgarciage409=false;
       this.errorMessage404=false;
       this.okMessage= false;
       this.controlVariable = false;
@@ -127,7 +132,8 @@ export default {
 
       
       document.getElementById("barCodeInput").disabled = true
-      let response = await fetch("https://192.168.21.62:8080/api/barcode", settings);
+      
+      let response = await fetch(`${config.API_PATH}api/barcode`, settings);
       if (response.status == 200) {
         this.isLoading = false;
         this.errorMessage409 = false;
@@ -192,6 +198,9 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+#audio{
+  display: none;
+}
 
 body{
   justify-content: center;
