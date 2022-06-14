@@ -1,6 +1,6 @@
 from src.webserver import create_app
 from src.domain.info import InfoRepository
-from src.domain.bar_code import BarCodeRepository
+from domain.barcode import BarCodeRepository
 
 database_path = "data/database.db"
 
