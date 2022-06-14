@@ -4,7 +4,7 @@
    
     <h2 class="project" v-bind:style="{color: lineColor}">-{{ this.palot.project }}-</h2>
     <p class="instruction" v-if="!selectMessage" >ESCANEE EL C.B. DEL PALOT</p>
-    <p class="instruction " v-if="selectMessage" >ESCANEE EL CODIGO QR DE LINEA </p>
+    <p class="instruction " v-if="selectMessage" >ESCOJA UNA LINEA DE TRABAJO </p>
     
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
@@ -122,7 +122,7 @@ export default {
         },
       };
       this.color="white"
-      this.errorMessajosephhduvalgarciage409=false;
+      this.errorMessage409=false;
       this.errorMessage404=false;
       this.okMessage= false;
       this.controlVariable = false;
@@ -204,7 +204,7 @@ export default {
 
 body{
   justify-content: center;
-  min-height: 100vh;
+  max-height: 100vh;
 }
 .project{
   color: rgb(3, 8, 70);

@@ -15,4 +15,4 @@ def test_should_send_a_xml_to_erp():
 
     response = client.post("/api/barcode", json=body)
 
-    assert response.status_code == 200
+    assert response.status_code == 409

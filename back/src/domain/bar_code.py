@@ -76,7 +76,7 @@ class BarCode:
         dict_to_return = {"status_code": status_code, "response": good_result}
         return dict_to_return
 
-    def send_error_to_erp(self, error_mensage):
+    def send_error_to_erp(self, error_message):
         headers = [
             "Method: POST",
             "Connection: Keep-Alive",
@@ -92,7 +92,7 @@ class BarCode:
 			            <app:pJobNoConsume>{self.project}</app:pJobNoConsume>
 			            <app:pBarcodeConsume>{self.lote_number}</app:pBarcodeConsume>
 			            <app:pResourceNoConsume>IK</app:pResourceNoConsume>
-                        <app:pErrorConsume>{error_mensage}</app:pErrorConsume>
+                        <app:pErrorConsume>{error_message}</app:pErrorConsume>
 		              </app:SendErrorConsume>
 	              </soapenv:Body>
 	              </soapenv:Envelope>"""
