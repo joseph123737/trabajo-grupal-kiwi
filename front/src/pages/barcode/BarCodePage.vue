@@ -53,6 +53,7 @@
 </template>
 
 <script>
+import {createdBodyXml,sendDataToErp} from "@/services.js"
 import {config} from "@/config.js"
 export default {
   name: "barcode",
@@ -113,10 +114,15 @@ export default {
       this.selectMessage = false;
       } 
      else{
-        this.sentData(palot);
+        this.prueba();
       }
     },
+    async prueba(){
+      let body =createdBodyXml(this.palot.project,this.palot.lote_number)
+      await sendDataToErp(body)
+    },
     async sentData(palot) {
+      
         if(palot.project === ""){
           this.errorMessageNoLineSelected = true
           this.palot.lote_number = "";
