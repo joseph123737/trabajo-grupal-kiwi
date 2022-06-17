@@ -14,18 +14,9 @@ export default {
 </script>
 
 <style scoped>
-#nav{
-  height: 10vh;
-  background-color: grey;
-  border-radius: 10px;
-  color: white;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  }
- 
-p{
-  font-size: 3em;
-  margin: auto;
+*{
+  padding: 0 !important;
+  margin: 0;
 }
+
 </style>
