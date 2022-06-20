@@ -47,13 +47,9 @@
       placeholder="Codigo de barras"
       autocomplete="off"
     />
-<<<<<<< HEAD
-   <button @click="prueba">aaaaaaaaaaaa</button>
-=======
     </section>
   </div>
   
->>>>>>> b4f90e124fb808c1cbd529fbd7fbda0dca182e71
   </body>
 </div> 
 </template>
@@ -259,16 +255,6 @@ body{
 }
 
  
-<<<<<<< HEAD
-  .input[data-v-600ef54c] {
-	text-align: center;
-	margin: 5%;
-	width: 60%;
-	height: 2rem;
-	border: 2px solid #00478d;
-}
-=======
->>>>>>> b4f90e124fb808c1cbd529fbd7fbda0dca182e71
 
 
 
