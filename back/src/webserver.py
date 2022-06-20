@@ -16,7 +16,7 @@ def create_app(repositories):
     def get_barcode():
         body = request.json
         good_body = body["lote_number"].replace("'", "-")
-        barcode_unconverted = BarCode(
+        barcode_unconverted = repositories["erp"](
             project=body["project"],
             lote_number=good_body,
         )

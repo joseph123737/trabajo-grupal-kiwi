@@ -1,4 +1,5 @@
 <template>
+<div id="prueba">
   <body v-bind:style="{ backgroundColor: color}">
 
    
@@ -39,8 +40,9 @@
       placeholder="Codigo de barras"
       autocomplete="off"
     />
-   
+   <button @click="prueba">aaaaaaaaaaaa</button>
   </body>
+</div> 
 </template>
 
 <script>
@@ -81,6 +83,10 @@ export default {
     
   },
   methods: {
+    prueba(){
+      let a = document.getElementById("prueba")
+      a.disabled = true
+    },
     inputData(palot){
       if (palot.lote_number == ("L.CESTAS")){this.palot.project = palot.lote_number;
        this.palot.lote_number = "";
@@ -225,13 +231,11 @@ body{
 
  
   .input[data-v-600ef54c] {
-	margin-left: -7000px;
 	text-align: center;
 	margin: 5%;
 	width: 60%;
 	height: 2rem;
 	border: 2px solid #00478d;
-	margin-left: -10000px;
 }
 
 
