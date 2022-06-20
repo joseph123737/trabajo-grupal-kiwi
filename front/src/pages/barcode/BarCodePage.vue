@@ -2,14 +2,21 @@
 <div id="prueba">
   <body v-bind:style="{ backgroundColor: color}">
 
-   
-    <h2 class="project" v-bind:style="{color: lineColor}">-{{ this.palot.project }}-</h2>
-    <p class="instruction" v-if="!selectMessage" >ESCANEE EL C.B. DEL PALOT</p>
-    <p class="instruction " v-if="selectMessage" >ESCOJA UNA LINEA DE TRABAJO </p>
+  <div v-bind:class={selectedLineCestas:selectedLineCestas,selectedLineCalibrado:selectedLineCalibrado}>
+    <h2 class="project">- {{ this.palot.project }} -</h2>
+  </div>
+  <div>
+    <div class="instruccionDiv">
+      <p class="instruction" v-if="!selectMessage" >ESCANEE EL PALOT</p>
+      <p class="instruction " v-if="selectMessage" >ESCOJA UNA LINEA</p>
+    </div>    
+    
     
     <div class="container" v-if="isLoading">
         <div class="ring"></div>
     </div>
+
+    <section >
 
     
     <div class="errorMessage" v-if="errorMessage409">
@@ -19,7 +26,7 @@
       <p>ERROR</p>
     </div>
     <div class="errorMessageNoLine" v-if="errorMessageNoLineSelected">
-      <p>ERROR ESCANEE UN QR</p>
+      <p>DEBE SELECCIONAR UNA LINEA</p>
     </div>
     <div class="okMessage" v-if="okMessage">
       <p>OK</p>
@@ -40,7 +47,13 @@
       placeholder="Codigo de barras"
       autocomplete="off"
     />
+<<<<<<< HEAD
    <button @click="prueba">aaaaaaaaaaaa</button>
+=======
+    </section>
+  </div>
+  
+>>>>>>> b4f90e124fb808c1cbd529fbd7fbda0dca182e71
   </body>
 </div> 
 </template>
@@ -55,7 +68,8 @@ export default {
         project: "",
         lote_number: "",
       },
-      lineColor:"",
+      selectedLineCalibrado:false,
+      selectedLineCestas:false,
       color: 'white',
       correctBarCode: false,
       isLoading: false,
@@ -92,7 +106,7 @@ export default {
        this.palot.lote_number = "";
        this.errorMessageNoLineSelected =false 
        this.color="white";
-       this.lineColor="orange";
+       this.selectedLineCestas = true
        this.errorMessage409=false;
       this.errorMessage404=false;
       this.okMessage= false;
@@ -102,7 +116,7 @@ export default {
        this.palot.lote_number = "";
        this.errorMessageNoLineSelected = false
        this.color="white";
-       this.lineColor="purple";
+       this.selectedLineCalibrado = true
        this.errorMessage409=false;
       this.errorMessage404=false;
       this.okMessage= false;
@@ -203,24 +217,39 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+*{
+  font-family: 'Roboto', sans-serif;
+  color:black;
+}
+
 #audio{
   display: none;
 }
+.selectedLineCestas{
+  background-color: orange;
+  color: white;
+  align-items: center;
+  padding: 0.3%;
+  text-align: center;
+}
 
+.selectedLineCalibrado{
+  background-color: rgb(38, 0, 255);
+  text-align: center;
+  margin: 0;
+  color: white;
+}
 body{
   justify-content: center;
-  max-height: 100vh;
+  min-height: 80vh;
+  background-color:antiquewhite;
 }
-.project{
-  color: rgb(3, 8, 70);
-  margin-top: 0.7em;
-  font-size: 3em;
-}
+
 .instruction{
-  font-family: 'Open Sans', sans-serif;
   font-size: 3.5em;
-  color: rgb(3, 8, 70);
+  margin-top: 1em;
 }
 .errorMessage>p{
   font-size: 3rem;
@@ -230,6 +259,7 @@ body{
 }
 
  
+<<<<<<< HEAD
   .input[data-v-600ef54c] {
 	text-align: center;
 	margin: 5%;
@@ -237,6 +267,8 @@ body{
 	height: 2rem;
 	border: 2px solid #00478d;
 }
+=======
+>>>>>>> b4f90e124fb808c1cbd529fbd7fbda0dca182e71
 
 
 
@@ -266,7 +298,9 @@ body{
       transform: rotate(360deg)
   }
 }
-
+.input{
+  margin-left: -10000px !important;
+}
 .container .ring::before{
   content:"";
   position:absolute;
@@ -289,6 +323,8 @@ body{
   margin: 5px;
   font-weight: 900;
   color: white;
+  margin-top:em
+  
 }
 .errorMessageNoLine>p{
   color: red;
@@ -303,43 +339,33 @@ body{
   color: white;
 }
 
-/* button style */
-button {
-  margin-top: 20px;
-  margin-left: 13px;
+
+
+.project {
   align-items: center;
-  appearance: none;
-  background-image: radial-gradient(100% 100% at 100% 0, #00478d 0, #061150 100%);
   border: 0;
-  border-radius: 6px;
-  box-shadow: rgb(0, 0, 0) 0 2px 4px,rgb(10, 7, 15) 0 7px 13px -3px,rgb(17, 19, 32) 0 -3px 0 inset;
   box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-flex;
-  font-family: "JetBrains Mono",monospace;
-  font-weight: 900;;
-  height: 10vh;
-  min-width: 85vw;
+  color: #FFFFFF;
+  display: flex;
+  font-size: 3em;
   justify-content: center;
-  line-height: 1;
-  list-style: none;
-  overflow: hidden;
-  padding-left: 16px;
-  padding-right: 16px;
-  position:relative;
-  text-align: left;
-  text-decoration: none;
-  transition: box-shadow .15s,transform .15s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
-  will-change: box-shadow,transform;
-  font-size: 18px;
+  line-height: 1em;
+  height: 10vh;
+  max-width: 100%;
+  min-width: 140px;
+  padding: 19px 24px;
+  
+  
 }
 
 
+
+@media (min-width: 768px) {
+  .button-63 {
+    font-size: 24px;
+    min-width: 196px;
+  }
+}
 
 
 </style>
