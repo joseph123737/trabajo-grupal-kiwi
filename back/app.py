@@ -1,12 +1,13 @@
 from src.webserver import create_app
 from src.domain.info import InfoRepository
-from src.domain.barcode import BarCodeRepository
+from src.domain.barcode import BarCode, BarCodeRepository
 
 database_path = "data/database.db"
 
 repositories = {
     "info": InfoRepository(database_path),
     "barcode": BarCodeRepository(database_path),
+    "erp": BarCode,
 }
 
 app = create_app(repositories)
