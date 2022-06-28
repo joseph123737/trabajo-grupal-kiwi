@@ -1,16 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  {
-    path: '/:line',
-    name: 'Home',
-    component: () => import('@/pages/home/HomePage.vue'),
-  },
-  {
-    path: '/selectLine',
-    name: 'SelectLine',
-    component: () => import('@/pages/selectLine/SelectLinePage.vue'),
-  },
+
   {
     path: '/',
     name: 'BarCode',
