@@ -213,13 +213,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-
-*{
-  font-family: 'Roboto', sans-serif;
-  color:black;
-}
-
 #audio{
   display: none;
 }
@@ -239,7 +232,7 @@ export default {
 }
 body{
   justify-content: center;
-  min-height: 80vh;
+  min-height: 93vh;
   background-color:antiquewhite;
 }
 
@@ -309,7 +302,7 @@ body{
   margin: 5px;
   font-weight: 900;
   color: white;
-  margin-top:em
+  height: 100%;
   
 }
 .errorMessageNoLine>p{
@@ -342,15 +335,6 @@ body{
   padding: 19px 24px;
   
   
-}
-
-
-
-@media (min-width: 768px) {
-  .button-63 {
-    font-size: 24px;
-    min-width: 196px;
-  }
 }
 
 
