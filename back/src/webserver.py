@@ -1,7 +1,5 @@
-from datetime import date
 from flask import Flask, request
 from flask_cors import CORS
-from src.domain.barcode import BarCode, BarCodeRepository
 
 
 def create_app(repositories):
